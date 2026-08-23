@@ -1,31 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Institute for Latent Publics</title>
-<meta name="description" content="The Institute for Latent Publics studies how publics that are never asked can be made legible, and how far the answers can be trusted.">
+<title>잠재공중연구소 — Institute for Latent Publics</title>
+<meta name="description" content="잠재공중연구소는 질문받지 않는 공중을 어떻게 드러낼 수 있는지, 그리고 그 답을 어디까지 믿을 수 있는지를 연구합니다.">
 <link rel="alternate" hreflang="en" href="https://latentpublics.com/">
 <link rel="alternate" hreflang="ko" href="https://latentpublics.com/ko/">
-<link rel="canonical" href="https://latentpublics.com/">
+<link rel="canonical" href="https://latentpublics.com/ko/">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Institute for Latent Publics">
-<meta property="og:title" content="Institute for Latent Publics">
-<meta property="og:description" content="The Institute for Latent Publics studies how publics that are never asked can be made legible, and how far the answers can be trusted.">
-<meta property="og:url" content="https://latentpublics.com/">
-<meta property="og:locale" content="en_US">
+<meta property="og:title" content="잠재공중연구소 — Institute for Latent Publics">
+<meta property="og:description" content="잠재공중연구소는 질문받지 않는 공중을 어떻게 드러낼 수 있는지, 그리고 그 답을 어디까지 믿을 수 있는지를 연구합니다.">
+<meta property="og:url" content="https://latentpublics.com/ko/">
+<meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#fdfdfc" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "ResearchOrganization",
   "name": "Institute for Latent Publics",
+  "alternateName": "잠재공중연구소",
   "url": "https://latentpublics.com",
   "email": "contact@latentpublics.com",
   "member": {
@@ -47,17 +48,16 @@
 }
 * { box-sizing: border-box; }
 html { background: var(--bg); }
-body { margin: 0; color: var(--ink); font-family: "Source Serif 4", Georgia, serif; font-size: 18px; line-height: 1.65; }
+body { margin: 0; color: var(--ink); font-family: "Noto Serif KR", "Source Serif 4", Georgia, serif; font-size: 17px; line-height: 1.8; word-break: keep-all; }
 a { color: var(--link); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 a:hover { color: var(--ink); }
-.sans { font-family: "Public Sans", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; }
+.sans { font-family: "Public Sans", -apple-system, "Segoe UI", "Apple SD Gothic Neo", "Malgun Gothic", Helvetica, Arial, sans-serif; }
 main { max-width: 60rem; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
 header.site { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
 .wordmark { font-weight: 600; font-size: 1rem; }
 .lang { font-size: 0.8rem; }
 .lang a { color: var(--muted); }
 .hero { position: relative; padding: 6rem 0 5.5rem; }
-/* Dot grid, anchored top-right so the lit dots below stay on-grid at any width. */
 .field {
   position: absolute; inset: 0;
   background-image: radial-gradient(var(--dot) 1.5px, transparent 1.5px);
@@ -66,8 +66,6 @@ header.site { display: flex; justify-content: space-between; align-items: baseli
   mask-image: linear-gradient(105deg, transparent 42%, black 78%);
   -webkit-mask-image: linear-gradient(105deg, transparent 42%, black 78%);
 }
-/* A few dots light up and fade — voices speaking, then listening.
-   Grid centers sit at (13 + 26m) px from the hero's top-right corner. */
 .field-lit { position: absolute; inset: 0; pointer-events: none; }
 .field-lit span {
   position: absolute; width: 7px; height: 7px; border-radius: 50%;
@@ -84,18 +82,18 @@ header.site { display: flex; justify-content: space-between; align-items: baseli
   .field-lit span { animation: none; opacity: 0.85; transform: scale(1); }
   .field-lit span:nth-child(2n) { opacity: 0; }
 }
-.hero-inner { position: relative; max-width: 30em; }
-.hero h1 { font-size: clamp(1.9rem, 5vw, 3rem); font-weight: 600; line-height: 1.22; letter-spacing: -0.02em; margin: 0 0 1.3rem; text-wrap: pretty; }
-.hero p { font-size: 1.15rem; color: var(--soft); margin: 0; text-wrap: pretty; }
+.hero-inner { position: relative; max-width: 29em; }
+.hero h1 { font-size: clamp(1.7rem, 4.5vw, 2.6rem); font-weight: 600; line-height: 1.4; letter-spacing: -0.01em; margin: 0 0 1.3rem; text-wrap: pretty; }
+.hero p { font-size: 1.12rem; color: var(--soft); margin: 0; text-wrap: pretty; }
 h2 { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: 0 0 1.6rem; }
 .study { border-top: 1px solid var(--rule); padding: 2.5rem 0 1rem; }
 .study-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
-.study-grid h3 { font-size: 1.1rem; font-weight: 650; line-height: 1.35; margin: 0 0 0.6rem; letter-spacing: -0.01em; }
-.study-grid p { margin: 0; font-size: 0.98rem; color: var(--soft); text-wrap: pretty; }
+.study-grid h3 { font-size: 1.08rem; font-weight: 600; line-height: 1.5; margin: 0 0 0.6rem; }
+.study-grid p { margin: 0; font-size: 0.95rem; color: var(--soft); text-wrap: pretty; }
 .study-grid .n { display: block; font-size: 0.75rem; color: var(--link); margin-bottom: 0.9rem; letter-spacing: 0.08em; }
 .duo { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; border-top: 1px solid var(--rule); margin-top: 2.5rem; padding: 2.5rem 0 1rem; }
 .duo p { margin: 0 0 0.55rem; color: var(--soft); }
-.duo .lead { color: var(--ink); font-size: 1.1rem; font-weight: 650; }
+.duo .lead { color: var(--ink); font-size: 1.08rem; font-weight: 600; }
 .uc-links { font-size: 0.85rem; }
 footer { margin-top: 3.5rem; border-top: 1px solid var(--rule); padding-top: 1.2rem; font-size: 0.78rem; color: var(--muted); line-height: 1.8; }
 footer a { color: var(--muted); }
@@ -108,11 +106,11 @@ footer a { color: var(--muted); }
 <body>
 <main>
   <header class="site sans">
-    <span class="wordmark">Institute for Latent Publics</span>
-    <span class="lang"><a href="ko/" lang="ko" hreflang="ko">한국어</a></span>
+    <span class="wordmark">잠재공중연구소</span>
+    <span class="lang"><a href="../" lang="en" hreflang="en">English</a></span>
   </header>
 
-  <!-- HERO — pending final confirmation. Replace this block only. -->
+  <!-- HERO — 박사님 최종 확인 전. 이 블록만 교체하면 된다. -->
   <section class="hero">
     <div class="field" aria-hidden="true"></div>
     <div class="field-lit" aria-hidden="true">
@@ -127,8 +125,8 @@ footer a { color: var(--muted); }
       <span style="right:calc(13px + 26px*8 - 3.5px);top:calc(13px + 26px*9 - 3.5px);--d:5.4s;--dl:8.3s"></span>
     </div>
     <div class="hero-inner">
-      <h1>Cities are built on the many who are never asked.</h1>
-      <p>The Institute for Latent Publics studies how those publics can be made legible — and how far the answers can be trusted.</p>
+      <h1>도시는 대체로 질문받지 않는 다수 위에 세워집니다.</h1>
+      <p>잠재공중연구소는 그 공중을 어떻게 드러낼 수 있는지, 그리고 그 답을 어디까지 믿을 수 있는지를 연구합니다.</p>
     </div>
   </section>
   <!-- /HERO -->
@@ -136,9 +134,9 @@ footer a { color: var(--muted); }
   <section class="study">
     <h2 class="sans">What we study</h2>
     <div class="study-grid">
-      <div><span class="n sans">01</span><h3>Revealing latent publics from data.</h3><p>How the activity and opinion of those who do not appear in hearings, surveys, or administrative records can be brought into how cities get planned.</p></div>
-      <div><span class="n sans">02</span><h3>The methodological integrity of synthetic populations.</h3><p>How far a simulated response can be trusted, and where it begins to lie. This question takes up more of the work than the simulation itself.</p></div>
-      <div><span class="n sans">03</span><h3>Rehearsals of coexistence.</h3><p>What a rehearsal of living together is worth inside a design process, now that it can be run at all.</p></div>
+      <div><span class="n sans">01</span><h3>데이터로 잠재된 공중을 드러내는 일.</h3><p>공청회에 오지 않고, 설문에 답하지 않고, 행정 기록에 남지 않는 사람들의 활동과 의견이 도시가 계획되는 방식에 어떻게 닿을 수 있는가.</p></div>
+      <div><span class="n sans">02</span><h3>합성 인구의 방법론적 진실성.</h3><p>시뮬레이션된 응답을 어디까지 믿을 수 있고 어디서부터 거짓이 시작되는가. 이 질문이 시뮬레이션 자체보다 더 큰 부분을 차지할 때가 많습니다.</p></div>
+      <div><span class="n sans">03</span><h3>공존의 리허설.</h3><p>이제 실제로 돌려볼 수 있게 된 「함께 사는 일의 리허설」이 설계 과정에서 갖는 자리는 무엇인가.</p></div>
     </div>
   </section>
 

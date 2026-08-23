@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Not found — Institute for Latent Publics</title>
+<meta name="theme-color" content="#fdfdfc" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14161a" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light dark;
+  --bg: #fdfdfc; --ink: #16181d; --soft: #555a63; --muted: #5f646d;
+  --rule: #e3e5ea; --dot: #d4d7dc; --link: #1f5fa8;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #14161a; --ink: #e8eaee; --soft: #a3a9b4; --muted: #959ca8; --rule: #2c3038; --dot: #33383f; --link: #7fb0e8; }
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body { margin: 0; color: var(--ink); font-family: "Source Serif 4", Georgia, serif; font-size: 18px; line-height: 1.65; }
+a { color: var(--link); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--ink); }
+.sans { font-family: "Public Sans", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; }
+main { max-width: 60rem; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+h1 { font-size: clamp(1.9rem, 5vw, 3rem); font-weight: 600; line-height: 1.22; letter-spacing: -0.02em; margin: 0 0 1.3rem; text-wrap: pretty; }
+p { font-size: 1.15rem; color: var(--soft); margin: 0 0 1.3rem; text-wrap: pretty; }
+.back { font-size: 0.85rem; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Not found</h1>
+  <p>This page has moved or no longer exists.</p>
+  <p class="back sans"><a href="/">Institute for Latent Publics</a></p>
+</main>
+<!-- Cloudflare Web Analytics — Cloudflare 대시보드에서 토큰 발급 후 주석 해제
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"token": "REPLACE_WITH_TOKEN"}'></script>
+-->
+</body>
+</html>
