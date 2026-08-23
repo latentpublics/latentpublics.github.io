@@ -1,20 +1,29 @@
 # latentpublics.github.io
 
 Landing page for [latentpublics.com](https://latentpublics.com) — the
-Institute for Latent Publics. Two pages: `/` (English) and `/ko/` (Korean),
-plus `404.html`.
+Institute for Latent Publics. One published page, `/`, plus `404.html`.
 
 ## Structure
 
 ```
 index.html      /
-ko/index.html   /ko/
+ko/index.html   Korean page — kept, NOT published (see below)
 404.html
 robots.txt      governs the whole domain — the only robots.txt crawlers read
 sitemap.xml
+_config.yml     excludes ko/ from the Jekyll build
 favicon.svg
 CNAME           latentpublics.com — do not edit or delete
 ```
+
+## The Korean page is shelved
+
+`ko/index.html` stays in the repository but is not served: `_config.yml`
+excludes `ko` from the Jekyll build, so `/ko/` returns 404. To publish it
+again, delete the `exclude` entry in `_config.yml`, restore the language link
+in `index.html`'s `<header class="site">` and its `hreflang="ko"` alternate,
+and add `/ko/` back to `sitemap.xml`. The `.lang` CSS is still in both pages,
+so nothing needs restyling.
 
 ## `/urban-currents/` is not in this repo
 
