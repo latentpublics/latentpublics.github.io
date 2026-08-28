@@ -1,0 +1,7 @@
+{
+  "name": "latentpublics-site",
+  "private": true,
+  "devDependencies": {
+    "wrangler": "^4.127.0"
+  }
+}

@@ -1,5 +1,0 @@
-# ko/ stays in the repository but is not published. Delete the exclude entry
-# below (and restore the language link in index.html plus the /ko/ entry in
-# sitemap.xml) to bring the Korean page back online.
-exclude:
-  - ko

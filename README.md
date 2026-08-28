@@ -1,56 +1,71 @@
 # latentpublics.github.io
 
 Landing page for [latentpublics.com](https://latentpublics.com) — the
-Institute for Latent Publics. One published page, `/`, plus `404.html`.
+Institute for Latent Publics. Served by a Cloudflare Worker
+(`latentpublics-site`) with static assets, not by GitHub Pages.
+
+The repository keeps its `<org>.github.io` name for historical reasons; the
+name no longer determines how the site is served.
 
 ## Structure
 
 ```
-index.html      /
-ko/index.html   Korean page — kept, NOT published (see below)
-404.html
-robots.txt      governs the whole domain — the only robots.txt crawlers read
-sitemap.xml
-_config.yml     excludes ko/ from the Jekyll build
-favicon.svg
-CNAME           latentpublics.com — do not edit or delete
+public/         the asset directory — only what is in here reaches the web
+  index.html    /
+  404.html
+  robots.txt    governs the whole domain — the only robots.txt crawlers read
+  sitemap.xml
+  favicon.svg
+  _headers      security headers for asset responses
+ko/             Korean page — kept, NOT published (see below)
+src/index.js    the Worker: proxies /urban-currents/* only
+wrangler.jsonc  Worker + assets configuration
 ```
+
+There is no build step. The pages are plain static HTML with their CSS inlined
+and no JavaScript of their own.
+
+## `/urban-currents/` is a different repository
+
+`latentpublics.com/urban-currents/` is built and published by
+`latentpublics/urban-currents` onto GitHub Pages, on a daily schedule. **Do not
+edit that repository from here, and never create an `urban-currents/`
+directory in this one.**
+
+GitHub Pages used to serve it at `latentpublics.com/urban-currents/`
+automatically, because an org site with a custom domain also serves that org's
+project sites underneath it. Cloudflare has no equivalent. So `src/index.js`
+fetches `https://latentpublics.github.io/urban-currents/...` and returns it
+unchanged — same URL and same content for the visitor, only the delivery path
+differs. Publishing is untouched.
+
+The Worker handles `/urban-currents*` and nothing else (`run_worker_first` in
+`wrangler.jsonc`). Every other path is served directly from `public/`, which is
+what keeps the `_headers` security headers on those responses — they do not
+apply to responses a Worker builds itself.
 
 ## The Korean page is shelved
 
-`ko/index.html` stays in the repository but is not served: `_config.yml`
-excludes `ko` from the Jekyll build, so `/ko/` returns 404. To publish it
-again, delete the `exclude` entry in `_config.yml`, restore the language link
-in `index.html`'s `<header class="site">` and its `hreflang="ko"` alternate,
-and add `/ko/` back to `sitemap.xml`. The `.lang` CSS is still in both pages,
-so nothing needs restyling.
-
-## `/urban-currents/` is not in this repo
-
-`latentpublics.com/urban-currents/` is served by a separate repository,
-`latentpublics/urban-currents`. GitHub Pages serves a project site of the same
-organisation at `<custom domain>/<repo name>/` automatically, so **never create
-an `urban-currents/` directory here** — it would shadow that site.
-
-For the same reason, do not delete or modify `CNAME` (one line:
-`latentpublics.com`), and do not rename this repository: the name
-`<org>.github.io` is what makes it the organisation site.
+`ko/index.html` stays in the repository but is not served: it sits outside
+`public/`, so it is not part of the deployed asset directory. To publish it
+again, move the folder to `public/ko/`, and restore the language link in
+`public/index.html` plus the `/ko/` entry in `public/sitemap.xml`. The `.lang`
+CSS is still in both pages, so nothing needs restyling.
 
 ## Deployment
 
-No build step. Pure static HTML; the CSS is inlined in each page. Pushing to
-`main` publishes via GitHub Pages.
+Cloudflare builds from `main`. Build command is empty; the deploy command is
+`npx wrangler deploy`.
 
-To preview locally:
+To work on it locally:
 
 ```sh
-python3 -m http.server
+npm install
+npx wrangler dev      # serves public/ and runs the Worker
 ```
 
 ## Analytics
 
-Off by default. Each of the three pages carries a commented-out Cloudflare Web
-Analytics beacon just before `</body>`. Issue a token in the Cloudflare
-dashboard, replace `REPLACE_WITH_TOKEN`, and uncomment the block.
-
-That beacon is the single exception to this site's zero-JavaScript rule.
+Cloudflare Web Analytics is injected automatically into Worker responses, so
+there is no beacon script in the HTML — adding one would double-count. The CSP
+in `public/_headers` allows the injected script.
