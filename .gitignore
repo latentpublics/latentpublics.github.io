@@ -1,4 +1,8 @@
 prompts/
 node_modules/
+# npm omits some esbuild platform packages from the lockfile, which makes
+# `npm ci` refuse to install. Without a lockfile Cloudflare runs `npm install`.
+# The only dependency is wrangler, pinned by package.json.
+package-lock.json
 .wrangler/
 .DS_Store

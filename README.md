@@ -2,60 +2,69 @@
 
 Landing page for [latentpublics.com](https://latentpublics.com) — the
 Institute for Latent Publics. Served by a Cloudflare Worker
-(`latentpublics-site`) with static assets, not by GitHub Pages.
-
-The repository keeps its `<org>.github.io` name for historical reasons; the
-name no longer determines how the site is served.
+(`latentpublics-site`) with static assets.
 
 ## Structure
 
 ```
-public/         the asset directory — only what is in here reaches the web
+public/         the asset directory — only what is in here reaches latentpublics.com
   index.html    /
   404.html
-  robots.txt    governs the whole domain — the only robots.txt crawlers read
+  robots.txt    for latentpublics.com — allows crawling
   sitemap.xml
   favicon.svg
   _headers      security headers for asset responses
 ko/             Korean page — kept, NOT published (see below)
 src/index.js    the Worker: proxies /urban-currents/* only
 wrangler.jsonc  Worker + assets configuration
+_config.yml     for GitHub Pages, NOT Cloudflare — do not delete (see below)
+robots.txt      for latentpublics.github.io — blocks crawling
 ```
 
-There is no build step. The pages are plain static HTML with their CSS inlined
-and no JavaScript of their own.
+There is no build step for the pages themselves: plain static HTML with the
+CSS inlined and no JavaScript of their own.
 
-## `/urban-currents/` is a different repository
+## Two hosts, and why both stay alive
 
-`latentpublics.com/urban-currents/` is built and published by
-`latentpublics/urban-currents` onto GitHub Pages, on a daily schedule. **Do not
-edit that repository from here, and never create an `urban-currents/`
-directory in this one.**
+`latentpublics.com` is served by Cloudflare. But `latentpublics.github.io`
+must keep working too, because the Worker proxies `/urban-currents/*` to
+`https://latentpublics.github.io/urban-currents/`.
 
-GitHub Pages used to serve it at `latentpublics.com/urban-currents/`
-automatically, because an org site with a custom domain also serves that org's
-project sites underneath it. Cloudflare has no equivalent. So `src/index.js`
-fetches `https://latentpublics.github.io/urban-currents/...` and returns it
-unchanged — same URL and same content for the visitor, only the delivery path
-differs. Publishing is untouched.
+**Do not turn off GitHub Pages for this repository.** It is the origin the
+Worker fetches from. `/urban-currents/` itself is built and published by a
+separate repository, `latentpublics/urban-currents`, on a daily schedule —
+never edit that repository from here, and never create an `urban-currents/`
+directory in this one.
 
-The Worker handles `/urban-currents*` and nothing else (`run_worker_first` in
-`wrangler.jsonc`). Every other path is served directly from `public/`, which is
-what keeps the `_headers` security headers on those responses — they do not
-apply to responses a Worker builds itself.
+Because GitHub Pages keeps building this repo, it would otherwise expose a
+second copy of the site at `latentpublics.github.io`. Two files prevent that,
+and **Cloudflare ignores both of them**:
+
+- `_config.yml` — its `exclude` list keeps the landing page, the Korean page
+  and the Worker source out of the GitHub Pages build.
+- `robots.txt` (repository root) — `Disallow: /`, so the github.io mirror is
+  not indexed. This is a different file from `public/robots.txt`, which serves
+  `latentpublics.com` and allows crawling. The digest that visitors see is
+  `latentpublics.com/urban-currents/`, governed by the permissive one, so
+  blocking github.io costs nothing in indexing.
 
 ## The Korean page is shelved
 
 `ko/index.html` stays in the repository but is not served: it sits outside
-`public/`, so it is not part of the deployed asset directory. To publish it
-again, move the folder to `public/ko/`, and restore the language link in
-`public/index.html` plus the `/ko/` entry in `public/sitemap.xml`. The `.lang`
-CSS is still in both pages, so nothing needs restyling.
+`public/`, so Cloudflare never deploys it, and `_config.yml` excludes it from
+the GitHub Pages build. To publish it again: move the folder to `public/ko/`,
+remove `ko` from the `exclude` list in `_config.yml`, and restore the language
+link in `public/index.html` plus the `/ko/` entry in `public/sitemap.xml`.
 
 ## Deployment
 
 Cloudflare builds from `main`. Build command is empty; the deploy command is
 `npx wrangler deploy`.
+
+`package-lock.json` is deliberately **not** committed. npm omits some esbuild
+platform packages when it writes the lockfile, which makes `npm ci` refuse to
+install; with no lockfile Cloudflare runs `npm install` instead. The only
+dependency is wrangler, pinned by `package.json`.
 
 To work on it locally:
 
