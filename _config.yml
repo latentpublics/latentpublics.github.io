@@ -1,0 +1,8 @@
+# TEMPORARY — delete together with CNAME at stage D of the Cloudflare migration.
+#
+# This file exists only because GitHub Pages still serves latentpublics.com
+# until the DNS cutover. Jekyll is what keeps ko/ unpublished today; once
+# Cloudflare serves the site, ko/ is unpublished simply by sitting outside
+# public/, and Cloudflare ignores this file entirely.
+exclude:
+  - ko
