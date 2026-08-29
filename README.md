@@ -73,6 +73,13 @@ npm install
 npx wrangler dev      # serves public/ and runs the Worker
 ```
 
+## Caching of the proxied digest
+
+The Worker's subrequest uses `cacheEverything` with a 300s TTL, which keeps
+traffic off GitHub for a digest that changes once a day. The trade-off:
+`cacheEverything` strips `ETag`, but `Last-Modified` survives, so conditional
+requests still revalidate.
+
 ## Analytics
 
 Cloudflare Web Analytics is injected automatically into Worker responses, so

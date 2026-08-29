@@ -51,7 +51,9 @@ async function proxyDigest(request, url) {
       // file it redirects back here, and following that is an infinite loop.
       redirect: "manual",
       // The digest changes about once a day, so a short edge cache is safe and
-      // keeps traffic off GitHub.
+      // keeps traffic off GitHub. cacheEverything strips ETag before the
+      // response reaches this code, but Last-Modified survives, so conditional
+      // requests still revalidate.
       cf: { cacheEverything: true, cacheTtl: 300 },
     });
   } catch (err) {
@@ -64,7 +66,8 @@ async function proxyDigest(request, url) {
     return badGateway();
   }
 
-  // Carries Content-Type, Content-Length, Last-Modified and ETag through as-is.
+  // Carries Content-Type and Last-Modified through as-is. ETag and
+  // Content-Length do not arrive here — see the cacheEverything note above.
   const responseHeaders = new Headers(upstream.headers);
 
   if (upstream.status >= 300 && upstream.status < 400) {
