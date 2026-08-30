@@ -73,6 +73,44 @@ npm install
 npx wrangler dev      # serves public/ and runs the Worker
 ```
 
+## Contact form
+
+`public/contact.js` builds a slide-out panel; `POST /api/contact` in
+`src/index.js` validates the submission, checks Turnstile, and sends two mails
+through Resend — an admin notification and an auto-confirmation to the sender.
+The panel is the site's only client-side JavaScript: without it every text and
+the `contact@latentpublics.com` mailto link still read normally.
+
+### Turnstile site key
+
+`TURNSTILE_SITE_KEY` at the top of `public/contact.js` is `"REPLACE_ME"`.
+Issue a widget under Turnstile in the Cloudflare dashboard and paste the site
+key over that string — it is a public value and belongs in the repository. On
+localhost the file automatically substitutes Cloudflare's always-passing test
+key, so local development needs no key of its own.
+
+### Environment variables
+
+Set these in **Workers & Pages → `latentpublics-site` → Settings → Variables
+and secrets**, in the **runtime** section. There is a separate build-time
+section with the same name; values placed there are not visible to the running
+Worker.
+
+| Name | Kind | Default if unset |
+|---|---|---|
+| `RESEND_API_KEY` | Secret | — (required) |
+| `TURNSTILE_SECRET_KEY` | Secret | — (required) |
+| `CONTACT_TO` | Secret | `contact@latentpublics.com` |
+| `CONTACT_FROM` | Variable | `noreply@send.latentpublics.com` |
+
+**After saving values, go to Deployments and Promote a new version.** Saved
+variables do not reach the running Worker until a version is promoted.
+
+Setting `DRY_RUN=1` makes the Worker log the Resend payloads instead of
+sending them.
+
+For local development, put the same names in `.dev.vars` (gitignored).
+
 ## Caching of the proxied digest
 
 The Worker's subrequest uses `cacheEverything` with a 300s TTL, which keeps

@@ -102,12 +102,127 @@ footer a { color: var(--muted); }
   .study-grid, .duo { grid-template-columns: 1fr; gap: 1.8rem; }
   .hero { padding: 4.5rem 0 4rem; }
 }
+
+/* ---- Contact panel. Appended block; nothing above is modified. ---- */
+.contact-open {
+  font: inherit; color: var(--muted);
+  background: none; border: 0; padding: 0;
+  cursor: pointer; text-decoration: none;
+}
+.contact-open:hover { color: var(--ink); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.contact-open:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
+
+.cf-overlay {
+  position: fixed; inset: 0; z-index: 40;
+  background: rgba(22, 24, 29, 0.38);
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.22s ease, visibility 0.22s ease;
+}
+.cf-overlay.is-open { opacity: 1; visibility: visible; }
+
+.cf-panel {
+  position: fixed; top: 0; right: 0; z-index: 41;
+  width: min(30rem, 100vw); height: 100%;
+  background: var(--bg); border-left: 1px solid var(--rule);
+  overflow-y: auto; -webkit-overflow-scrolling: touch;
+  transform: translateX(100%); visibility: hidden;
+  transition: transform 0.26s ease, visibility 0.26s ease;
+}
+.cf-panel.is-open { transform: translateX(0); visibility: visible; }
+.cf-inner { padding: 2.2rem 1.8rem 3rem; }
+
+.cf-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.cf-head h2 {
+  font-family: "Public Sans", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--muted); margin: 0;
+}
+.cf-close {
+  font: inherit; font-size: 1.4rem; line-height: 1;
+  background: none; border: 0; padding: 0; cursor: pointer; color: var(--muted);
+}
+.cf-close:hover { color: var(--ink); }
+.cf-close:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
+.cf-lede { margin: 1.1rem 0 1.8rem; color: var(--soft); font-size: 0.98rem; text-wrap: pretty; }
+
+.cf-field { margin: 0 0 1.15rem; }
+.cf-field-head {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 0.75rem;
+  margin: 0 0 0.4rem;
+}
+.cf-field label {
+  font-family: "Public Sans", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--muted);
+}
+.cf-req { color: var(--link); margin-left: 0.25em; }
+.cf-count {
+  font-family: "Public Sans", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 0.72rem; color: var(--muted); font-variant-numeric: tabular-nums;
+}
+.cf-field input, .cf-field select, .cf-field textarea {
+  width: 100%; font-family: inherit; font-size: 1rem; line-height: 1.55;
+  color: var(--ink); background: var(--bg);
+  border: 1px solid var(--rule); border-radius: 2px;
+  padding: 0.55rem 0.65rem;
+}
+.cf-field textarea { resize: vertical; min-height: 8rem; }
+.cf-field input:focus, .cf-field select:focus, .cf-field textarea:focus {
+  outline: 2px solid var(--link); outline-offset: -1px; border-color: var(--link);
+}
+.cf-field input::placeholder, .cf-field textarea::placeholder { color: var(--muted); opacity: 0.75; }
+.cf-field.has-err input, .cf-field.has-err select, .cf-field.has-err textarea { border-color: #b4433a; }
+.cf-err {
+  margin: 0.35rem 0 0; min-height: 0;
+  font-family: "Public Sans", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 0.78rem; color: #b4433a;
+}
+@media (prefers-color-scheme: dark) {
+  .cf-field.has-err input, .cf-field.has-err select, .cf-field.has-err textarea { border-color: #e08b83; }
+  .cf-err { color: #e08b83; }
+  .cf-overlay { background: rgba(0, 0, 0, 0.55); }
+}
+
+/* Honeypot — off screen, never shown to a person. */
+.cf-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+.cf-turnstile { margin: 1.3rem 0 0; min-height: 65px; }
+.cf-alert {
+  margin: 1rem 0 0; font-size: 0.9rem; color: #b4433a;
+  text-wrap: pretty;
+}
+.cf-form:not(.has-alert) .cf-alert { display: none; }
+@media (prefers-color-scheme: dark) { .cf-alert { color: #e08b83; } }
+
+.cf-actions { margin: 1.1rem 0 0; }
+.cf-form .cta {
+  font-family: "Public Sans", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em;
+  color: var(--bg); background: var(--ink);
+  border: 1px solid var(--ink); border-radius: 2px;
+  padding: 0.6rem 1.4rem; cursor: pointer;
+}
+.cf-form .cta:hover { background: var(--link); border-color: var(--link); }
+.cf-form .cta:disabled { opacity: 0.55; cursor: default; }
+.cf-form .cta:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
+
+.cf-success { margin: 0; color: var(--soft); text-wrap: pretty; }
+.cf-alt { margin: 1.8rem 0 0; font-size: 0.85rem; color: var(--muted); }
+
+@media (max-width: 480px) {
+  .cf-panel { width: 100vw; border-left: 0; }
+  .cf-inner { padding: 1.8rem 1.2rem 2.6rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cf-overlay, .cf-panel { transition: none; }
+}
 </style>
 </head>
 <body>
 <main>
   <header class="site sans">
     <span class="wordmark">Institute for Latent Publics</span>
+    <span class="lang"><button type="button" class="contact-open" data-contact-open>Contact</button></span>
   </header>
 
   <!-- HERO — pending final confirmation. Replace this block only. -->
@@ -160,5 +275,6 @@ footer a { color: var(--muted); }
     © 2026 Institute for Latent Publics
   </footer>
 </main>
+<script defer src="/contact.js"></script>
 </body>
 </html>

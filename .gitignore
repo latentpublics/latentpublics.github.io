@@ -5,4 +5,5 @@ node_modules/
 # The only dependency is wrangler, pinned by package.json.
 package-lock.json
 .wrangler/
+.dev.vars
 .DS_Store

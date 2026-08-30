@@ -22,7 +22,12 @@ const OWN_HOSTS = new Set(["latentpublics.github.io", "latentpublics.com"]);
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
-    if (url.pathname === "/urban-currents" || url.pathname.startsWith("/urban-currents/")) {
+    const { pathname } = url;
+    if (pathname === "/api/contact") {
+      if (request.method === "POST") return handleContact(request, env);
+      return new Response(null, { status: 405, headers: { Allow: "POST", ...SECURITY_HEADERS } });
+    }
+    if (pathname === "/urban-currents" || pathname.startsWith("/urban-currents/")) {
       return proxyDigest(request, url);
     }
     return new Response("Not found", { status: 404 });
@@ -120,4 +125,254 @@ function textResponse(body, status, extraHeaders = {}) {
 // A dead upstream must not take the whole Worker down with a 500.
 function badGateway() {
   return textResponse("Urban Currents is temporarily unavailable.\n", 502);
+}
+
+// ---------------------------------------------------------------------------
+// Contact intake — POST /api/contact
+//
+// Ported from the production Deep Urban implementation. The intake logic
+// (validation order, honeypot, Turnstile siteverify, HTML escaping, error
+// codes) is carried over unchanged; only the site-specific values differ.
+// ---------------------------------------------------------------------------
+
+const MAX = { name: 100, email: 254, org: 120, message: 2000 };
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Allow-list of topics, matching public/contact.js. Blocks arbitrary strings.
+const TOPICS = new Set([
+  "Research collaboration",
+  "Urban Currents",
+  "Speaking & media",
+  "Method or data inquiry",
+  "Other"
+]);
+
+const DEFAULT_TO = "contact@latentpublics.com";
+const DEFAULT_FROM = "noreply@send.latentpublics.com";
+// Used in the auto-reply only. It is the address already published on the site,
+// and plays a different role from env.CONTACT_TO (the internal inbox) — the two
+// are never mixed, so the internal address cannot leak to the person writing in.
+const PUBLIC_CONTACT = "contact@latentpublics.com";
+
+// public/_headers applies to static assets only. Responses the Worker builds
+// get these here.
+const SECURITY_HEADERS = {
+  "X-Content-Type-Options": "nosniff",
+  "Referrer-Policy": "no-referrer",
+  "Cache-Control": "no-store"
+};
+
+const json = (body, status) =>
+  new Response(JSON.stringify(body), {
+    status,
+    headers: { "Content-Type": "application/json; charset=utf-8", ...SECURITY_HEADERS }
+  });
+
+const ok = () => json({ ok: true }, 200);
+const err = (code, status) => json({ ok: false, error: code }, status);
+
+const str = (v) => (typeof v === "string" ? v.trim() : "");
+
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function utcNow() {
+  return new Date().toISOString().replace("T", " ").slice(0, 19) + " UTC";
+}
+
+async function handleContact(request, env) {
+  /* 1. Content-Type check + JSON parse */
+  const ctype = request.headers.get("Content-Type") || "";
+  if (!ctype.toLowerCase().includes("application/json")) {
+    return err("bad_content_type", 400);
+  }
+
+  let body;
+  try {
+    body = await request.json();
+  } catch (_) {
+    return err("bad_json", 400);
+  }
+  if (!body || typeof body !== "object") return err("bad_json", 400);
+
+  /* 2. Field validation */
+  const data = {
+    name: str(body.name),
+    email: str(body.email),
+    org: str(body.org),
+    topic: str(body.topic),
+    message: str(body.message)
+  };
+
+  if (!data.name || !data.email || !data.topic || !data.message) {
+    return err("missing_field", 400);
+  }
+  if (!EMAIL_RE.test(data.email)) return err("bad_email", 400);
+  for (const key of Object.keys(MAX)) {
+    if (data[key].length > MAX[key]) return err("too_long", 400);
+  }
+
+  /* 3. Honeypot — if filled, return success quietly and send nothing. */
+  if (str(body.website)) return ok();
+
+  /* 4. Turnstile verification */
+  const secret = env.TURNSTILE_SECRET_KEY;
+  if (!secret) {
+    console.error("[contact] TURNSTILE_SECRET_KEY is not set. Set it in Workers & Pages > latentpublics-site > Settings > Variables and secrets (runtime).");
+    return err("server_misconfigured", 500);
+  }
+
+  const token = str(body["cf-turnstile-response"]);
+  const verifyForm = new FormData();
+  verifyForm.append("secret", secret);
+  verifyForm.append("response", token);
+  const remoteip = request.headers.get("CF-Connecting-IP");
+  if (remoteip) verifyForm.append("remoteip", remoteip);
+
+  let verdict;
+  try {
+    const vres = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      body: verifyForm
+    });
+    verdict = await vres.json();
+  } catch (e) {
+    console.error("[contact] Turnstile siteverify call failed:", e && e.message);
+    return err("captcha_unavailable", 503);
+  }
+  if (verdict.success !== true) {
+    console.error("[contact] Turnstile verification failed:", JSON.stringify(verdict["error-codes"] || []));
+    return err("captcha_failed", 403);
+  }
+
+  /* 5. Topic allow-list */
+  if (!TOPICS.has(data.topic)) return err("bad_topic", 400);
+
+  /* 6. Send two emails through Resend */
+  const apiKey = env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.error("[contact] RESEND_API_KEY is not set. Set it in Workers & Pages > latentpublics-site > Settings > Variables and secrets (runtime).");
+    return err("server_misconfigured", 500);
+  }
+  const to = env.CONTACT_TO || DEFAULT_TO;
+  const from = env.CONTACT_FROM || DEFAULT_FROM;
+  const dryRun = env.DRY_RUN === "1";
+
+  const meta = {
+    at: utcNow(),
+    country: request.headers.get("CF-IPCountry") || "-"
+  };
+
+  /* Admin notification — a failure here is a 500. An enquiry must not be lost. */
+  try {
+    await sendEmail(apiKey, adminEmail({ data, meta, to, from }), dryRun);
+  } catch (e) {
+    console.error("[contact] admin notification failed to send:", e && e.message);
+    return err("send_failed", 500);
+  }
+
+  /* Auto confirmation reply — a failure here is still a 200. The enquiry is in. */
+  try {
+    await sendEmail(apiKey, autoReply({ data, from }), dryRun);
+  } catch (e) {
+    console.error("[contact] auto confirmation failed to send (enquiry was received):", e && e.message);
+  }
+
+  return ok();
+}
+
+async function sendEmail(apiKey, payload, dryRun) {
+  if (dryRun) {
+    console.log("[contact] DRY_RUN — printing the payload instead of sending:\n" + JSON.stringify(payload, null, 2));
+    return;
+  }
+  const res = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  });
+  if (!res.ok) {
+    const detail = await res.text().catch(() => "");
+    throw new Error(`Resend ${res.status}: ${detail.slice(0, 300)}`);
+  }
+}
+
+function adminEmail({ data, meta, to, from }) {
+  const rows = [
+    ["Name", data.name],
+    ["Email", data.email],
+    ["Affiliation", data.org || "-"],
+    ["Topic", data.topic],
+    ["Received", meta.at],
+    ["Country", meta.country]
+  ];
+
+  const text =
+    rows.map(([k, v]) => `${k}: ${v}`).join("\n") +
+    "\n\nMessage:\n" +
+    data.message +
+    "\n";
+
+  const html =
+    '<div style="font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',sans-serif;font-size:15px;line-height:1.7;color:#171717">' +
+    "<table cellpadding='0' cellspacing='0' style='border-collapse:collapse'>" +
+    rows
+      .map(
+        ([k, v]) =>
+          `<tr><td style="padding:2px 16px 2px 0;color:#5c5c5c;white-space:nowrap">${escapeHtml(k)}</td>` +
+          `<td style="padding:2px 0">${escapeHtml(v)}</td></tr>`
+      )
+      .join("") +
+    "</table>" +
+    '<p style="margin:20px 0 6px;color:#5c5c5c">Message</p>' +
+    `<div style="white-space:pre-wrap;border-left:2px solid #d9d9d9;padding-left:12px">${escapeHtml(data.message)}</div>` +
+    "</div>";
+
+  return {
+    from: `Institute for Latent Publics <${from}>`,
+    to: [to],
+    reply_to: data.email,
+    subject: `[Contact] ${data.topic} — ${data.name}`,
+    text,
+    html
+  };
+}
+
+/* This mail goes to the person who wrote in. The internal address
+   (env.CONTACT_TO) must appear neither in the body nor in the headers — which
+   is why this function takes no `to` argument. */
+function autoReply({ data, from }) {
+  const text = `Hello, ${data.name}.
+
+We have received your message. We will review it and reply to you.
+
+Topic: ${data.topic}
+Message:
+${data.message}
+
+Institute for Latent Publics
+`;
+
+  const html =
+    '<div style="font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',sans-serif;font-size:15px;line-height:1.7;color:#171717;white-space:pre-wrap">' +
+    escapeHtml(text) +
+    "</div>";
+
+  return {
+    from: `Institute for Latent Publics <${from}>`,
+    to: [data.email],
+    reply_to: PUBLIC_CONTACT,
+    subject: "[Institute for Latent Publics] We received your message",
+    text,
+    html
+  };
 }
