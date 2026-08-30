@@ -7,7 +7,7 @@
 
   /* The Turnstile site key is a public value. Replace this string once the key
      is issued (see README). */
-  var TURNSTILE_SITE_KEY = "REPLACE_ME";
+  var TURNSTILE_SITE_KEY = "0x4AAAAAAEhnh5Li_aSuEoai";
   /* Local development — Cloudflare's published "always passes" test site key.
      Used only on localhost-style hosts, never in production. */
   var TURNSTILE_TEST_SITE_KEY = "1x00000000000000000000AA";
