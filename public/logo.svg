@@ -9,12 +9,12 @@
     .ring { fill: none; }
   </style>
   <circle cx="28" cy="28" r="9" class="ink"></circle>
-  <circle cx="60" cy="28" r="9" class="ink ring" fill="none" stroke-width="4.5"></circle>
-  <circle cx="92" cy="28" r="9" class="ink ring" fill="none" stroke-width="4.5"></circle>
+  <circle cx="60" cy="28" r="9" class="ink ring" fill="none" stroke-width="2.5"></circle>
+  <circle cx="92" cy="28" r="9" class="ink ring" fill="none" stroke-width="2.5"></circle>
   <circle cx="28" cy="60" r="9" class="ink"></circle>
   <circle cx="60" cy="60" r="9" fill="#D98E32"></circle>
-  <circle cx="92" cy="60" r="9" class="ink ring" fill="none" stroke-width="4.5"></circle>
+  <circle cx="92" cy="60" r="9" class="ink ring" fill="none" stroke-width="2.5"></circle>
   <circle cx="28" cy="92" r="9" class="ink"></circle>
   <circle cx="60" cy="92" r="9" class="ink"></circle>
-  <circle cx="92" cy="92" r="9" class="ink ring" fill="none" stroke-width="4.5"></circle>
+  <circle cx="92" cy="92" r="9" class="ink ring" fill="none" stroke-width="2.5"></circle>
 </svg>

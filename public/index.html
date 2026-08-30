@@ -216,12 +216,17 @@ footer a { color: var(--muted); }
 @media (prefers-reduced-motion: reduce) {
   .cf-overlay, .cf-panel { transition: none; }
 }
+
+/* ---- Header logo. Appended; nothing above is modified. ---- */
+.wordmark{display:inline-flex;align-items:center;gap:8px;color:inherit;text-decoration:none}
+.wordmark img{display:block;flex:none}
+.wordmark:hover{text-decoration:underline;text-underline-offset:3px}
 </style>
 </head>
 <body>
 <main>
   <header class="site sans">
-    <span class="wordmark">Institute for Latent Publics</span>
+    <a class="wordmark" href="/"><img src="/logo.svg" alt="" width="20" height="20">Institute for Latent Publics</a>
     <span class="lang"><button type="button" class="contact-open" data-contact-open>Contact</button></span>
   </header>
 
