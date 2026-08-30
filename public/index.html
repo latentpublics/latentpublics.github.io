@@ -218,7 +218,10 @@ footer a { color: var(--muted); }
 }
 
 /* ---- Header logo. Appended; nothing above is modified. ---- */
-.wordmark{display:inline-flex;align-items:center;gap:8px;color:inherit;text-decoration:none}
+.wordmark{display:inline-flex;align-items:baseline;gap:8px;color:inherit;text-decoration:none}
+/* baseline, not center: as a flex item the wordmark's baseline is taken from
+   its first child, so a centered logo makes the header align on the image's
+   bottom edge and drops the wordmark text ~10px above Contact. */
 .wordmark img{display:block;flex:none}
 .wordmark:hover{text-decoration:underline;text-underline-offset:3px}
 </style>
