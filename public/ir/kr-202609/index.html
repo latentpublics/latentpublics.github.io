@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>말하지 않는 다수에게 어떻게 물어볼 것인가</title>
+<meta name="description" content="잠재된 공중(latent publics)의 의견을 불러내고, 그것이 실제와 얼마나 가까운지 재는 연구소 스타트업, Institute for Latent Publics의 IR 자료입니다.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#ffffff;color:#17181c;font-family:'Pretendard','Malgun Gothic','Apple SD Gothic Neo',system-ui,sans-serif;font-size:16px;line-height:1.7;word-break:keep-all;-webkit-font-smoothing:antialiased}
+a{color:#33456B;text-decoration:none;border-bottom:1px solid #d9d3c7}
+a:hover{color:#b23a2e;border-bottom-color:#b23a2e}
+p{margin:0}
+.mono{font-family:'IBM Plex Mono','Pretendard',ui-monospace,monospace}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+
+/* header */
+.top{display:flex;gap:16px;align-items:baseline;justify-content:space-between;flex-wrap:wrap;border-bottom:1.5px solid #17181c;padding:26px 0 14px}
+.brand{display:flex;gap:18px;align-items:baseline;flex-wrap:wrap}
+.brand b{font-family:'IBM Plex Mono','Pretendard',ui-monospace,monospace;font-size:12px;font-weight:600;letter-spacing:.16em}
+.brand span{font-family:'IBM Plex Mono','Pretendard',ui-monospace,monospace;font-size:12px;letter-spacing:.12em;color:#33456b}
+.dl{font-family:'IBM Plex Mono','Pretendard',ui-monospace,monospace;font-size:12px;letter-spacing:.08em;border-bottom:1px solid #d9d3c7;white-space:nowrap}
+
+/* stage */
+.stage{position:relative;background:#dcd8d0;border:1px solid #cfcabf;margin-top:22px;overflow:hidden}
+.viewport{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden}
+.track{display:flex;height:100%;width:100%;transition:transform .32s cubic-bezier(.4,0,.2,1);will-change:transform}
+.track.nomove{transition:none}
+.track img{flex:0 0 100%;width:100%;height:100%;object-fit:contain;display:block;user-select:none;-webkit-user-drag:none}
+.nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:64px;border:1px solid #cfcabf;background:rgba(255,255,255,.86);color:#17181c;font-size:22px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:background .15s,opacity .15s}
+.nav:hover:not(:disabled){background:#ffffff;border-color:#17181c}
+.nav:disabled{opacity:.28;cursor:default}
+.nav.prev{left:10px}
+.nav.next{right:10px}
+.fs{position:absolute;top:10px;right:10px;border:1px solid #cfcabf;background:rgba(255,255,255,.86);color:#17181c;font-size:12px;line-height:1;cursor:pointer;padding:7px 10px;font-family:'IBM Plex Mono','Pretendard',ui-monospace,monospace;letter-spacing:.06em}
+.fs:hover{background:#fff;border-color:#17181c}
+
+/* controls */
+.bar{display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:14px 0 0}
+.ticks{display:flex;gap:3px;flex:1 1 320px;min-width:220px}
+.tick{flex:1 1 auto;height:16px;padding:6px 0 0;background:none;border:0;cursor:pointer}
+.tick i{display:block;height:3px;background:#cfcabf;transition:background .15s}
+.tick:hover i{background:#8a8a82}
+.tick[aria-current="true"] i{background:#17181c;height:5px;margin-top:-1px}
+.count{font-family:'IBM Plex Mono','Pretendard',ui-monospace,monospace;font-size:13px;letter-spacing:.06em;color:#57544d;white-space:nowrap}
+.count b{color:#17181c;font-weight:600}
+.hint{font-family:'IBM Plex Mono','Pretendard',ui-monospace,monospace;font-size:11px;letter-spacing:.06em;color:#8a8a82;margin-top:10px}
+
+/* footer */
+footer{border-top:1px solid #d9d3c7;margin-top:44px;padding:24px 0 72px;display:flex;gap:14px 48px;flex-wrap:wrap}
+footer div{display:flex;gap:12px;align-items:baseline}
+footer .lab{font-family:'IBM Plex Mono','Pretendard',ui-monospace,monospace;font-size:11.5px;letter-spacing:.1em;color:#8a8a82;white-space:nowrap}
+footer .val{font-size:14.5px}
+noscript p{border:1px solid #d9d3c7;background:#f6f5f0;padding:14px 18px;margin-top:14px;font-size:14.5px}
+
+@media (max-width:720px){
+  .wrap{padding:0 14px}
+  .nav{width:36px;height:52px;font-size:18px}
+  .nav.prev{left:6px}.nav.next{right:6px}
+  .fs{padding:6px 8px;font-size:11px}
+  .ticks{order:3;flex-basis:100%}
+}
+@media (prefers-reduced-motion:reduce){.track{transition:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="top">
+    <div class="brand">
+      <b>INSTITUTE FOR LATENT PUBLICS</b>
+      <span>INVESTOR BRIEF · 2026-09</span>
+    </div>
+    <a class="dl" href="ILP-IR-Deck-2026-09.pdf" download>⤓ PDF 원본 (3.4MB · 25p)</a>
+  </div>
+
+  <div class="stage">
+    <div class="viewport">
+      <div class="track" id="track"></div>
+    </div>
+    <button class="nav prev" id="prev" type="button" aria-label="이전 슬라이드">‹</button>
+    <button class="nav next" id="next" type="button" aria-label="다음 슬라이드">›</button>
+    <button class="fs" id="fs" type="button" aria-label="전체화면">전체화면</button>
+  </div>
+
+  <div class="bar">
+    <div class="ticks" id="ticks" role="tablist" aria-label="슬라이드 이동"></div>
+    <p class="count"><b id="cur">1</b> / <span id="total">25</span></p>
+  </div>
+  <p class="hint">← → 방향키 · 스와이프 · 눈금 클릭으로 이동</p>
+
+  <noscript>
+    <p>슬라이드 넘김에는 자바스크립트가 필요합니다. <a href="ILP-IR-Deck-2026-09.pdf">PDF 원본을 내려받아</a> 보실 수 있습니다.</p>
+  </noscript>
+
+  <footer>
+    <div><span class="lab">SERVICES</span><span class="val">Million Answers (<a href="https://million-answers.com">million-answers.com</a>)<br>Persona Roundtable (<a href="https://persona-roundtable.com">persona-roundtable.com</a>)</span></div>
+    <div><span class="lab">CONTACT</span><span class="val">박영준 박사 · Institute for Latent Publics<br>youngjourpark@gmail.com / contact@latentpublics.com</span></div>
+  </footer>
+</div>
+
+<script src="viewer.js"></script>
+</body>
+</html>
