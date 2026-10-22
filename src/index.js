@@ -1,10 +1,15 @@
 // Worker for latentpublics.com.
 //
-// Everything except /urban-currents* is served straight from the ./public
-// asset directory and never reaches this code — see run_worker_first in
+// Everything except /urban-currents*, /api/* and the IR deck videos
+// (/ir/*/assets/*.mp4|webm) is served straight from the ./public asset
+// directory and never reaches this code — see run_worker_first in
 // wrangler.jsonc. That is deliberate: assets served by the platform keep the
 // security headers declared in public/_headers, which do NOT apply to
 // responses a Worker builds itself.
+//
+// The IR videos come through here only because the platform answers a Range
+// request with a full 200, and iOS Safari will not play a <video> without
+// byte ranges. See serveIrVideo below.
 //
 // /urban-currents/ is published by a separate repository
 // (latentpublics/urban-currents) onto GitHub Pages. GitHub Pages used to serve
@@ -30,9 +35,111 @@ export default {
     if (pathname === "/urban-currents" || pathname.startsWith("/urban-currents/")) {
       return proxyDigest(request, url);
     }
+    if (IR_VIDEO_PATH.test(pathname)) {
+      return serveIrVideo(request, env);
+    }
     return new Response("Not found", { status: 404 });
   },
 };
+
+// ---------------------------------------------------------------------------
+// IR deck videos — /ir/<deck>/assets/<name>.mp4|webm
+//
+// The platform serves these files without byte-range support (always a full
+// 200, no Accept-Ranges). Desktop browsers cope; iOS Safari refuses to play.
+// So these paths alone run through the Worker: the file is read from the
+// asset binding and the requested range is cut out of it here. The videos are
+// a few MB at most, so slicing in memory is fine.
+// ---------------------------------------------------------------------------
+
+// Must stay in step with the two video patterns in run_worker_first.
+const IR_VIDEO_PATH = /^\/ir\/[^/]+\/assets\/[^/]+\.(?:mp4|webm)$/;
+
+// Copy of the /ir/* block in public/_headers (the /* rules with /ir/*'s CSP and
+// Referrer-Policy overrides). The platform does not apply that file to
+// responses built here, so the headers are set by hand. Keep the two in sync.
+const IR_SECURITY_HEADERS = {
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "DENY",
+  "Referrer-Policy": "no-referrer",
+  "Permissions-Policy": "geolocation=(), camera=(), microphone=(), payment=()",
+  "Strict-Transport-Security": "max-age=31536000",
+  "Content-Security-Policy": "default-src 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' data:; media-src 'self'; script-src 'self' https://static.cloudflareinsights.com https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; connect-src 'self' https://cloudflareinsights.com https://challenges.cloudflare.com; base-uri 'self'; form-action 'none'; frame-ancestors 'none'"
+};
+
+// Carried over from the asset response when present.
+const PASSTHROUGH_HEADERS = ["Content-Type", "ETag", "Last-Modified", "Cache-Control"];
+
+async function serveIrVideo(request, env) {
+  const isHead = request.method === "HEAD";
+  if (request.method !== "GET" && !isHead) {
+    return new Response(null, { status: 405, headers: { Allow: "GET, HEAD", ...IR_SECURITY_HEADERS } });
+  }
+
+  // Always ask for the whole file, unconditionally: ranges and revalidation
+  // are answered here, against the full bytes.
+  const asset = await env.ASSETS.fetch(new Request(request.url, { method: "GET" }));
+  const headers = new Headers(IR_SECURITY_HEADERS);
+  for (const name of PASSTHROUGH_HEADERS) {
+    const value = asset.headers.get(name);
+    if (value) headers.set(name, value);
+  }
+
+  if (!asset.ok) {
+    return new Response(isHead ? null : asset.body, { status: asset.status, headers });
+  }
+
+  const body = await asset.arrayBuffer();
+  const total = body.byteLength;
+  headers.set("Accept-Ranges", "bytes");
+
+  const etag = asset.headers.get("ETag");
+  if (etag && request.headers.get("If-None-Match") === etag) {
+    headers.delete("Content-Type");
+    return new Response(null, { status: 304, headers });
+  }
+
+  // If-Range with a stale validator means "send the whole thing".
+  const ifRange = request.headers.get("If-Range");
+  const rangeHeader = ifRange && ifRange !== etag ? null : request.headers.get("Range");
+  const range = rangeHeader === null ? null : parseRange(rangeHeader, total);
+
+  if (range === "unsatisfiable") {
+    headers.set("Content-Range", `bytes */${total}`);
+    headers.delete("Content-Type");
+    return new Response(null, { status: 416, headers });
+  }
+
+  if (range === null) {
+    headers.set("Content-Length", String(total));
+    return new Response(isHead ? null : body, { status: 200, headers });
+  }
+
+  const { start, end } = range;
+  headers.set("Content-Range", `bytes ${start}-${end}/${total}`);
+  headers.set("Content-Length", String(end - start + 1));
+  return new Response(isHead ? null : body.slice(start, end + 1), { status: 206, headers });
+}
+
+// Returns {start, end} (inclusive), "unsatisfiable", or null to ignore the
+// header and send the full file. Only a single bytes range is honoured;
+// multiple ranges and other units are ignored, which RFC 9110 permits.
+function parseRange(header, total) {
+  const m = /^bytes=(\d*)-(\d*)$/.exec(header.trim());
+  if (!m) return header.trim().startsWith("bytes=") && !header.includes(",") ? "unsatisfiable" : null;
+  const [, first, last] = m;
+  if (first === "" && last === "") return "unsatisfiable";
+  if (first === "") {
+    // bytes=-n: the last n bytes
+    const n = Number(last);
+    if (n === 0 || total === 0) return "unsatisfiable";
+    return { start: Math.max(0, total - n), end: total - 1 };
+  }
+  const start = Number(first);
+  const end = last === "" ? total - 1 : Math.min(Number(last), total - 1);
+  if (start >= total || start > end) return "unsatisfiable";
+  return { start, end };
+}
 
 async function proxyDigest(request, url) {
   // The digest is a set of static documents. Nothing else is meaningful.

@@ -43,6 +43,28 @@
     ticks.push(t);
   });
 
+  // 영상을 재생할 수 없는 브라우저(예: 서버 Range 미지원 상태의 iOS Safari)에서는
+  // 흰 화면 대신 마지막 장면 정지 화면을 보여준다.
+  function fallback(video) {
+    var f = video.parentNode;
+    if (f && f.classList) f.classList.add("fallback");
+  }
+  function watch(video) {
+    if (video.dataset.watched) return;
+    video.dataset.watched = "1";
+    video.addEventListener("error", function () { fallback(video); });
+    var srcs = video.querySelectorAll("source");
+    if (srcs.length) srcs[srcs.length - 1].addEventListener("error", function () { fallback(video); });
+    setTimeout(function () {
+      var cell = video.closest(".cell");
+      if (cell && cell.getAttribute("aria-hidden") === "true") {
+        delete video.dataset.watched; // 4초 전에 다른 쪽으로 넘겼다면 다음 방문 때 다시 확인
+        return;
+      }
+      if (video.currentTime === 0 || video.readyState < 2) fallback(video);
+    }, 4000);
+  }
+
   function render(animate) {
     if (!animate) track.classList.add("nomove");
     track.style.transform = "translateX(" + (-index * 100) + "%)";
@@ -61,6 +83,7 @@
           try { vids[v].currentTime = 0; } catch (e) {}
           var pr = vids[v].play();
           if (pr && pr.catch) pr.catch(function () {});
+          watch(vids[v]);
         } else {
           vids[v].pause();
         }

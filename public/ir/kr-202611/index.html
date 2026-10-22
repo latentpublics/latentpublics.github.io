@@ -70,6 +70,8 @@ html.print .cell > .slide{transform:none}
 .slide img.still{display:none}
 html.print .slide video.vid{display:none}
 html.print .slide img.still{display:block}
+.slide .frame.fallback video.vid{display:none}
+.slide .frame.fallback img.still{display:block}
 @page{size:1920px 1080px;margin:0}
 </style>
 <script src="print.js"></script>
@@ -304,12 +306,12 @@ html.print .slide img.still{display:block}
   <div class="body" style="top:220px">
     <div class="two">
       <figure>
-        <div class="frame"><video class="vid" poster="assets/v16-ma-last.png" muted loop playsinline preload="metadata"><source src="assets/v16-ma.webm" type="video/webm"><source src="assets/v16-ma.mp4" type="video/mp4"></video><img class="still" src="assets/v16-ma-last.png" alt="Million Answers 결과 화면"></div>
+        <div class="frame"><video class="vid" poster="assets/v16-ma-last.png" muted loop playsinline preload="metadata"><source src="assets/v16-ma.mp4" type="video/mp4"><source src="assets/v16-ma.webm" type="video/webm"></video><img class="still" src="assets/v16-ma-last.png" alt="Million Answers 결과 화면"></div>
         <figcaption><b>Million Answers</b><span>million-answers.com</span></figcaption>
         <p class="pts">조건 지정 → 응답 → 리포트 · 문항별·응답자별 · PDF·XLSX 내보내기</p>
       </figure>
       <figure>
-        <div class="frame"><video class="vid" poster="assets/v16-pr-last.png" muted loop playsinline preload="metadata"><source src="assets/v16-pr.webm" type="video/webm"><source src="assets/v16-pr.mp4" type="video/mp4"></video><img class="still" src="assets/v16-pr-last.png" alt="Persona Roundtable 좌담회 화면"></div>
+        <div class="frame"><video class="vid" poster="assets/v16-pr-last.png" muted loop playsinline preload="metadata"><source src="assets/v16-pr.mp4" type="video/mp4"><source src="assets/v16-pr.webm" type="video/webm"></video><img class="still" src="assets/v16-pr-last.png" alt="Persona Roundtable 좌담회 화면"></div>
         <figcaption><b>Persona Roundtable</b><span>persona-roundtable.com</span></figcaption>
         <p class="pts">사람 사회자의 질문 → 합성 참여자의 발언 · 속마음 · 입장 분기 집계</p>
       </figure>
