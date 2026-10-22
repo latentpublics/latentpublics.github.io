@@ -6,7 +6,6 @@
 @font-face{font-family:'Pretendard';font-weight:500;font-display:block;src:url(fonts/Pretendard-Medium.woff2) format('woff2')}
 @font-face{font-family:'Pretendard';font-weight:600;font-display:block;src:url(fonts/Pretendard-SemiBold.woff2) format('woff2')}
 @font-face{font-family:'Pretendard';font-weight:700;font-display:block;src:url(fonts/Pretendard-Bold.woff2) format('woff2')}
-@font-face{font-family:'Pretendard';font-weight:800;font-display:block;src:url(fonts/Pretendard-ExtraBold.woff2) format('woff2')}
 
 :root{
   --paper:#F4F2EC; --paper-light:#FAF8F3; --white:#FFFFFF;
