@@ -43,6 +43,45 @@
     ticks.push(t);
   });
 
+  // 영상을 재생할 수 없는 브라우저(예: 서버 Range 미지원 상태의 iOS Safari)에서는
+  // 흰 화면 대신 마지막 장면 정지 화면을 보여준다.
+  function fallback(video) {
+    var f = video.parentNode;
+    if (f && f.classList) f.classList.add("fallback");
+  }
+  function failed(video) {
+    // 마지막 <source>까지 실패했는지. networkState는 소스를 고르는 도중에도
+    // 잠깐 NETWORK_NO_SOURCE가 되므로 판단에 쓰지 않는다.
+    return !!video.error || video.dataset.srcfailed === "1";
+  }
+  // 오류 리스너는 페이지 로드 때 붙인다. preload="metadata"라 소스 오류는
+  // 6쪽에 들어가기 전에 이미 끝날 수 있다. 이미 실패한 영상은 바로 전환한다.
+  Array.prototype.forEach.call(document.querySelectorAll(".slide video"), function (video) {
+    video.addEventListener("error", function () { fallback(video); });
+    var srcs = video.querySelectorAll("source");
+    if (srcs.length) srcs[srcs.length - 1].addEventListener("error", function () {
+      video.dataset.srcfailed = "1";
+      fallback(video);
+    });
+    if (failed(video)) fallback(video);
+  });
+  // 오류 없이 멈춰 있는 경우(재생이 시작되지 않음)는 6쪽에 머문 지 4초 뒤 전환한다.
+  function watch(video) {
+    if (failed(video)) { fallback(video); return; }
+    if (video.dataset.watched) return;
+    video.dataset.watched = "1";
+    // 리스너를 붙이기 전에 소스가 모두 실패한 경우: 1초가 지나도 소스 없음 상태면 전환
+    setTimeout(function () {
+      if (video.networkState === 3 && video.readyState === 0) fallback(video);
+    }, 1000);
+    setTimeout(function () {
+      delete video.dataset.watched;
+      var cell = video.closest(".cell");
+      if (cell && cell.getAttribute("aria-hidden") === "true") return; // 그 사이 다른 쪽으로 넘김
+      if (failed(video) || video.currentTime === 0 || video.readyState < 2) fallback(video);
+    }, 4000);
+  }
+
   function render(animate) {
     if (!animate) track.classList.add("nomove");
     track.style.transform = "translateX(" + (-index * 100) + "%)";
@@ -61,6 +100,7 @@
           try { vids[v].currentTime = 0; } catch (e) {}
           var pr = vids[v].play();
           if (pr && pr.catch) pr.catch(function () {});
+          watch(vids[v]);
         } else {
           vids[v].pause();
         }
