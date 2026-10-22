@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>결정 이전의 반응을 재는 연구소</title>
+<meta name="description" content="Institute for Latent Publics의 IR 자료입니다. 합성인구로 집단의 반응을 재고, 실제 반응으로 그 정확도를 높이는 연구소 스타트업. KAIST OverEdge 최종 오디션 2026-10.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<link rel="stylesheet" href="deck.css">
+<style>
+/* ---------- 뷰어 (kr-202609와 동일한 구성) ---------- */
+html,body{margin:0}
+body.viewer{background:#ffffff;color:#17181c;font-family:'Pretendard','Malgun Gothic','Apple SD Gothic Neo',system-ui,sans-serif;font-size:16px;line-height:1.7;word-break:keep-all;-webkit-font-smoothing:antialiased}
+.viewer a{color:#33456B;text-decoration:none;border-bottom:1px solid #d9d3c7}
+.viewer a:hover{color:#b23a2e;border-bottom-color:#b23a2e}
+.viewer p{margin:0}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+.top{display:flex;gap:16px;align-items:baseline;justify-content:space-between;flex-wrap:wrap;border-bottom:1.5px solid #17181c;padding:26px 0 14px}
+.brand{display:flex;gap:18px;align-items:baseline;flex-wrap:wrap}
+.brand b{font-size:12px;font-weight:600;letter-spacing:.16em}
+.brand span{font-size:12px;letter-spacing:.12em;color:#33456b}
+.dl{font-size:12px;letter-spacing:.08em;white-space:nowrap}
+.stage{position:relative;background:#dcd8d0;border:1px solid #cfcabf;margin-top:22px;overflow:hidden}
+.viewport{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden}
+.track{display:flex;height:100%;width:100%;transition:transform .32s cubic-bezier(.4,0,.2,1);will-change:transform}
+.track.nomove{transition:none}
+.cell{flex:0 0 100%;width:100%;height:100%;position:relative;overflow:hidden}
+.cell > .slide{position:absolute;left:0;top:0;transform-origin:0 0;transform:scale(var(--k,0.5))}
+.nav{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:64px;border:1px solid #cfcabf;background:rgba(255,255,255,.86);color:#17181c;font-size:22px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:background .15s,opacity .15s;z-index:3}
+.nav:hover:not(:disabled){background:#ffffff;border-color:#17181c}
+.nav:disabled{opacity:.28;cursor:default}
+.nav.prev{left:10px}.nav.next{right:10px}
+.fs{position:absolute;top:10px;right:10px;border:1px solid #cfcabf;background:rgba(255,255,255,.86);color:#17181c;font-size:12px;line-height:1;cursor:pointer;padding:7px 10px;letter-spacing:.06em;z-index:3}
+.fs:hover{background:#fff;border-color:#17181c}
+.stage:fullscreen{background:#000;display:flex;align-items:center;justify-content:center}
+.stage:fullscreen .viewport{width:min(100vw,177.78vh)}
+.bar{display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:14px 0 0}
+.ticks{display:flex;gap:3px;flex:1 1 320px;min-width:220px}
+.tick{flex:1 1 auto;height:16px;padding:6px 0 0;background:none;border:0;cursor:pointer}
+.tick i{display:block;height:3px;background:#cfcabf;transition:background .15s}
+.tick:hover i{background:#8a8a82}
+.tick[aria-current="true"] i{background:#17181c;height:5px;margin-top:-1px}
+.count{font-size:13px;letter-spacing:.06em;color:#57544d;white-space:nowrap}
+.count b{color:#17181c;font-weight:600}
+.hint{font-size:11px;letter-spacing:.06em;color:#8a8a82;margin-top:10px}
+footer{border-top:1px solid #d9d3c7;margin-top:44px;padding:24px 0 72px;display:flex;gap:14px 48px;flex-wrap:wrap}
+footer div{display:flex;gap:12px;align-items:baseline}
+footer .lab2{font-size:11.5px;letter-spacing:.1em;color:#8a8a82;white-space:nowrap}
+footer .val{font-size:14.5px}
+@media (max-width:720px){
+  .wrap{padding:0 14px}
+  .nav{width:36px;height:52px;font-size:18px}
+  .nav.prev{left:6px}.nav.next{right:6px}
+  .fs{padding:6px 8px;font-size:11px}
+  .ticks{order:3;flex-basis:100%}
+}
+@media (prefers-reduced-motion:reduce){.track{transition:none}}
+
+/* ---------- 인쇄·PDF 모드 (?print) ---------- */
+html.print body{background:#fff}
+html.print .wrap{max-width:none;padding:0}
+html.print .top,html.print .bar,html.print .hint,html.print footer,html.print .nav,html.print .fs{display:none}
+html.print .stage{margin:0;border:0;background:none}
+html.print .viewport{aspect-ratio:auto;overflow:visible}
+html.print .track{display:block;transform:none!important}
+html.print .cell{width:1920px;height:1080px;break-after:page;page-break-after:always}
+html.print .cell > .slide{transform:none}
+.slide video.vid{display:block;width:100%;height:100%;object-fit:contain;background:#fff}
+.slide img.still{display:none}
+html.print .slide video.vid{display:none}
+html.print .slide img.still{display:block}
+@page{size:1920px 1080px;margin:0}
+</style>
+<script src="print.js"></script>
+</head>
+<body class="viewer">
+
+<div class="wrap">
+  <div class="top">
+    <div class="brand">
+      <b>INSTITUTE FOR LATENT PUBLICS</b>
+      <span>INVESTOR BRIEF · 2026-10 · KAIST OVEREDGE FINAL</span>
+    </div>
+    <a class="dl" href="ILP-IR-Deck-2026-10.pdf" download>⤓ PDF 원본 (16p)</a>
+  </div>
+
+  <div class="stage">
+    <div class="viewport">
+      <div class="track" id="track">
+
+<!-- ======================= 01 표지 ======================= -->
+<div class="cell"><section class="slide s-cover">
+  <div class="eyebrow">INSTITUTE FOR LATENT PUBLICS</div>
+  <h1>말하지 않는 다수에게<br>어떻게 물어볼 것인가</h1>
+  <p class="sub">결정을 발표하기 전에, 집단의 반응을 먼저 잰다</p>
+  <p class="who">박영준 · 건축학 박사<br>ar-ge 건축사사무소 공동창업자 겸 CTO · (전) KAIST 도시인공지능연구소 연구원</p>
+  <p class="meta">KAIST OVEREDGE<br>FINAL AUDITION · 2026 · 10</p>
+</section></div>
+
+
+<!-- ======================= 02 문제와 사람 ======================= -->
+<div class="cell"><section class="slide s-why">
+  <div class="eyebrow">01 · 문제</div><div class="pg">02</div>
+  <h2 class="ttl">의견 수렴의 비용</h2>
+  <div class="body">
+    <div class="left">
+      <p class="q">“5분만 시간을 내어,<br>설문조사에 응해주시겠어요?”<br><span>이 한 줄을 부탁하는 데 드는 것</span></p>
+      <div class="cost">
+        <div><b>모집</b><span>며칠에서 몇 주</span></div>
+        <div><b>비용</b><span>1회당 수백만 원</span></div>
+        <div><b>결과</b><span class="last">수많은 거절과 외면</span></div>
+      </div>
+    </div>
+    <div class="right">
+      <img src="assets/portrait.jpg" alt="박영준">
+      <div class="tl">
+        <div>서울대학교 건축학부</div>
+        <div>도시설계 석사 · 건축학 박사</div>
+        <div>서울대학교 건축학과 강사</div>
+        <div>KAIST 도시인공지능연구소 연구원</div>
+        <div class="on">ar-ge 건축사사무소 공동창업자 · CTO</div>
+        <div class="on">Institute for Latent Publics 창업 준비중</div>
+      </div>
+      <div class="same"><span>약 20년, 같은 질문</span>사람들의 의견은 계획과 결정에 어떻게 반영되는가</div>
+    </div>
+  </div>
+</section></div>
+
+
+<!-- ======================= 03 해법 ======================= -->
+<div class="cell"><section class="slide s-sol">
+  <div class="eyebrow">01 · 해법</div><div class="pg">03</div>
+  <h2 class="ttl">해법 · 합성인구에게 동시에 묻는다</h2>
+  <p class="lead">통계 분포대로 가상의 주민을 만들고, 각자의 조건을 반영한 LLM에게 같은 질문을 병렬로 던진다</p>
+  <div class="body" style="top:262px">
+    <svg width="1620" height="740" viewBox="0 0 1620 740">
+      <defs><marker id="as" markerWidth="11" markerHeight="11" refX="9" refY="5.5" orient="auto"><path d="M0,0 L11,5.5 L0,11 z" fill="#33456B"/></marker></defs>
+      <g font-size="25" font-weight="700" fill="#17181C">
+        <text x="0" y="26"><tspan fill="#33456B">1</tspan> 인구 통계</text>
+        <text x="420" y="26"><tspan fill="#33456B">2</tspan> 합성인구</text>
+        <text x="870" y="26"><tspan fill="#33456B">3</tspan> LLM · 병렬</text>
+        <text x="1150" y="26"><tspan fill="#33456B">4</tspan> 의견 시뮬레이션</text>
+      </g>
+      <line x1="0" y1="44" x2="1620" y2="44" stroke="#CFC8BA" stroke-width="1.5"/>
+      <!-- 질문 -->
+      <rect x="870" y="66" width="750" height="56" fill="#FAF8F3" stroke="#17181C" stroke-width="2"/>
+      <text x="892" y="102" font-size="22" fill="#17181C"><tspan font-weight="700">같은 질문</tspan>  단지 1층에 어떤 생활SOC가 필요하세요?</text>
+      <!-- census -->
+      <rect x="0" y="146" width="330" height="566" fill="#ECE8DF"/>
+      <text x="22" y="186" font-size="20" font-weight="700" fill="#17181C">연령대</text>
+      <g fill="#33456B">
+        <rect x="22" y="252" width="36" height="46"/><rect x="72" y="222" width="36" height="76"/><rect x="122" y="206" width="36" height="92"/>
+        <rect x="172" y="214" width="36" height="84"/><rect x="222" y="232" width="36" height="66"/><rect x="272" y="246" width="36" height="52"/>
+      </g>
+      <line x1="18" y1="298" x2="312" y2="298" stroke="#17181C" stroke-width="1.5"/>
+      <g font-size="14" fill="#8A8A82" text-anchor="middle"><text x="40" y="318">20대</text><text x="90" y="318">30대</text><text x="140" y="318">40대</text><text x="190" y="318">50대</text><text x="240" y="318">60대</text><text x="290" y="318">70+</text></g>
+      <text x="22" y="372" font-size="20" font-weight="700" fill="#17181C">가구 유형</text>
+      <rect x="22" y="390" width="96" height="30" fill="#33456B"/><rect x="118" y="390" width="82" height="30" fill="#6A7A9A"/><rect x="200" y="390" width="66" height="30" fill="#A3AEC6"/><rect x="266" y="390" width="42" height="30" fill="#D4D9E6"/>
+      <g font-size="14" fill="#57544D"><text x="22" y="442">1인</text><text x="118" y="442">부부</text><text x="200" y="442">부부+자녀</text><text x="270" y="442">기타</text></g>
+      <text x="22" y="498" font-size="20" font-weight="700" fill="#17181C">거주지 · 직업 · 소득</text>
+      <text x="22" y="530" font-size="17" fill="#57544D">읍면동 단위 인구 구성</text>
+      <text x="22" y="556" font-size="17" fill="#57544D">직업군 · 소득 분위 분포</text>
+      <line x1="22" y1="584" x2="308" y2="584" stroke="#CFC8BA"/>
+      <text x="22" y="614" font-size="15" fill="#8A8A82">주민등록 인구 · 인구주택총조사</text>
+      <text x="22" y="636" font-size="15" fill="#8A8A82">생활인구 통계</text>
+      <text x="22" y="690" font-size="15" fill="#8A8A82">(예시) 경기도 OO지역</text>
+      <g stroke="#33456B" stroke-width="2.5" marker-end="url(#as)"><line x1="342" y1="428" x2="404" y2="428"/></g>
+      <text x="372" y="410" font-size="15" fill="#33456B" text-anchor="middle">분포대로</text>
+      <text x="372" y="458" font-size="15" fill="#33456B" text-anchor="middle">생성</text>
+      <!-- dashed spine -->
+      <line x1="975" y1="122" x2="975" y2="700" stroke="#57544D" stroke-width="1.5" stroke-dasharray="4 5"/>
+      <!-- rows -->
+      <g id="rows">
+        <g transform="translate(0,146)">
+          <rect x="420" y="0" width="390" height="128" fill="#FAF8F3" stroke="#CFC8BA" stroke-width="1.5"/>
+          <text x="444" y="40" font-size="24" font-weight="700" fill="#17181C">34세 여성</text>
+          <text x="444" y="74" font-size="18" fill="#57544D">맞벌이, 초등학생 자녀 1명</text>
+          <text x="444" y="102" font-size="18" fill="#57544D">덕양구 거주, 사무직</text>
+          <rect x="880" y="22" width="190" height="84" fill="#E4E8F0" stroke="#33456B" stroke-width="1.5"/>
+          <text x="975" y="58" font-size="22" font-weight="700" fill="#33456B" text-anchor="middle">LLM</text>
+          <text x="975" y="86" font-size="15" fill="#57544D" text-anchor="middle">페르소나 반영</text>
+          <rect x="1150" y="0" width="470" height="128" fill="#ECE8DF"/>
+          <text x="1174" y="54" font-size="19" fill="#17181C">“방과 후 돌봄 공간이 가장 급해요.</text>
+          <text x="1174" y="84" font-size="19" fill="#17181C">퇴근이 7시라서요.”</text>
+        </g>
+        <g transform="translate(0,292)">
+          <rect x="420" y="0" width="390" height="128" fill="#FAF8F3" stroke="#CFC8BA" stroke-width="1.5"/>
+          <text x="444" y="40" font-size="24" font-weight="700" fill="#17181C">27세 남성</text>
+          <text x="444" y="74" font-size="18" fill="#57544D">1인 가구</text>
+          <text x="444" y="102" font-size="18" fill="#57544D">일산동구 거주, 프리랜서</text>
+          <rect x="880" y="22" width="190" height="84" fill="#E4E8F0" stroke="#33456B" stroke-width="1.5"/>
+          <text x="975" y="58" font-size="22" font-weight="700" fill="#33456B" text-anchor="middle">LLM</text>
+          <text x="975" y="86" font-size="15" fill="#57544D" text-anchor="middle">페르소나 반영</text>
+          <rect x="1150" y="0" width="470" height="128" fill="#ECE8DF"/>
+          <text x="1174" y="54" font-size="19" fill="#17181C">“저녁 늦게까지 여는 운동 공간이면</text>
+          <text x="1174" y="84" font-size="19" fill="#17181C">자주 갈 것 같아요.”</text>
+        </g>
+        <g transform="translate(0,438)">
+          <rect x="420" y="0" width="390" height="128" fill="#FAF8F3" stroke="#CFC8BA" stroke-width="1.5"/>
+          <text x="444" y="40" font-size="24" font-weight="700" fill="#17181C">71세 여성</text>
+          <text x="444" y="74" font-size="18" fill="#57544D">부부 가구</text>
+          <text x="444" y="102" font-size="18" fill="#57544D">덕양구 거주, 은퇴</text>
+          <rect x="880" y="22" width="190" height="84" fill="#E4E8F0" stroke="#33456B" stroke-width="1.5"/>
+          <text x="975" y="58" font-size="22" font-weight="700" fill="#33456B" text-anchor="middle">LLM</text>
+          <text x="975" y="86" font-size="15" fill="#57544D" text-anchor="middle">페르소나 반영</text>
+          <rect x="1150" y="0" width="470" height="128" fill="#ECE8DF"/>
+          <text x="1174" y="54" font-size="19" fill="#17181C">“계단 없이 갈 수 있는 쉼터와</text>
+          <text x="1174" y="84" font-size="19" fill="#17181C">건강 프로그램이 있으면 좋겠어요.”</text>
+        </g>
+        <g transform="translate(0,584)">
+          <rect x="420" y="0" width="390" height="128" fill="#FAF8F3" stroke="#CFC8BA" stroke-width="1.5"/>
+          <text x="444" y="40" font-size="24" font-weight="700" fill="#17181C">45세 남성</text>
+          <text x="444" y="74" font-size="18" fill="#57544D">4인 가구</text>
+          <text x="444" y="102" font-size="18" fill="#57544D">일산서구 거주, 자영업</text>
+          <rect x="880" y="22" width="190" height="84" fill="#E4E8F0" stroke="#33456B" stroke-width="1.5"/>
+          <text x="975" y="58" font-size="22" font-weight="700" fill="#33456B" text-anchor="middle">LLM</text>
+          <text x="975" y="86" font-size="15" fill="#57544D" text-anchor="middle">페르소나 반영</text>
+          <rect x="1150" y="0" width="470" height="128" fill="#ECE8DF"/>
+          <text x="1174" y="54" font-size="19" fill="#17181C">“주차가 걱정돼요. 상가 손님과</text>
+          <text x="1174" y="84" font-size="19" fill="#17181C">겹치지 않았으면 합니다.”</text>
+        </g>
+      </g>
+      <g stroke="#33456B" stroke-width="2.5" marker-end="url(#as)">
+        <line x1="816" y1="210" x2="872" y2="210"/><line x1="1076" y1="210" x2="1142" y2="210"/>
+        <line x1="816" y1="356" x2="872" y2="356"/><line x1="1076" y1="356" x2="1142" y2="356"/>
+        <line x1="816" y1="502" x2="872" y2="502"/><line x1="1076" y1="502" x2="1142" y2="502"/>
+        <line x1="816" y1="648" x2="872" y2="648"/><line x1="1076" y1="648" x2="1142" y2="648"/>
+      </g>
+      <text x="615" y="738" font-size="16" fill="#8A8A82" text-anchor="middle">… 수백에서 수천 명이 동시에</text>
+      <text x="1620" y="738" font-size="16" fill="#8A8A82" text-anchor="end">(예시) 응답은 집단별 분포와 논점으로 집계</text>
+    </svg>
+  </div>
+</section></div>
+
+<!-- ======================= 04 사업 구조 ======================= -->
+<div class="cell"><section class="slide s-biz">
+  <div class="eyebrow">02 · 사업 구조</div><div class="pg">04</div>
+  <h2 class="ttl">하나의 합성인구, 세 가지 공급 방식</h2>
+  <div class="body" style="top:212px">
+    <div class="flow">
+      <div><small>고객사 내부</small>기획 · 가설</div>
+      <div class="me"><small>INSTITUTE FOR LATENT PUBLICS</small>결정 이전의 반응 측정</div>
+      <div><small>리서치사 · 패널</small>본조사 · 공식 절차</div>
+      <div><small>고객사</small>발표 · 실행</div>
+    </div>
+    <div class="grid">
+      <div class="box">
+        <div class="hd"><b>자체 서비스</b><span>구독 · 실응답 과금 · 라이선스</span></div>
+        <div class="it"><span class="n">Million Answers<em>가상 설문</em></span><span class="chip on">운영 중</span><span class="d">조건을 정하면 합성 응답과 리포트 · 실제 응답으로 MRP 보정</span></div>
+        <div class="it"><span class="n">Persona Roundtable<em>가상 좌담회</em></span><span class="chip on">운영 중</span><span class="d">사람이 사회, 합성 참여자 4~10명 · 발언 옆에 속마음</span></div>
+        <div class="it"><span class="n">Posting Simulator<em>게시 전 반응</em></span><span class="chip nv">시연 중</span><span class="d">보도자료·게시물에 대한 수천 명의 집단별 반응을 한 번에</span></div>
+      </div>
+      <div class="box">
+        <div class="hd"><b>맞춤형 개발</b><span>개발비 + 이용료</span></div>
+        <div class="it"><span class="n">ClawClip<em>소상공인 마케팅</em></span><span class="chip on">계약</span><span class="d">OverEdge 동료 창업자의 요청 · 상권별 가상 손님층 기능</span></div>
+        <div class="it"><span class="n">추가 요청 3곳<em>협의 중</em></span><span class="chip nv">협의</span><span class="d">자기 서비스에 합성인구를 넣고 싶다는 창업자·기업</span></div>
+        <div class="it" style="border-bottom:none"><span class="d" style="font-size:18px;line-height:1.5;margin-top:4px">고객사 서비스 안에 같은 populi-core API로 공급한다</span></div>
+      </div>
+      <div class="infra">
+        <p class="t">합성인구 인프라<small>위 두 갈래를 받치는 공통 기반</small></p>
+        <div class="c"><b>populi-core</b>한국인 100만 명 · 읍면동 3,559곳</div>
+        <div class="c"><b>반응 스코어링</b>합성과 실제의 좌표 거리 측정</div>
+        <div class="c"><b>학습 파이프라인</b>서비스에서 돌아오는 실제 반응</div>
+      </div>
+    </div>
+  </div>
+</section></div>
+
+<!-- ======================= 05 OverEdge 이후 ======================= -->
+<div class="cell"><section class="slide s-built2">
+  <div class="eyebrow">02 · 사업 구조</div><div class="pg">05</div>
+  <h2 class="ttl">OverEdge 기간에 만든 것</h2>
+  <p class="lead">2026년 7월 시작 시점에는 아무것도 없었다. 지금은 사업 구조의 세 층을 모두 갖췄다</p>
+  <div class="body" style="top:276px">
+    <div class="wrap2">
+      <div class="zero"><span class="lab">OVEREDGE 시작 · 2026.07</span><div class="z">0</div><p>서비스 · 회원 · 계약<br>모두 없음</p></div>
+      <div class="arr"><svg width="70" height="40" viewBox="0 0 70 40"><line x1="4" y1="20" x2="56" y2="20" stroke="#33456B" stroke-width="3"/><path d="M50 10 L66 20 L50 30" fill="none" stroke="#33456B" stroke-width="3"/></svg></div>
+      <div class="layers">
+        <div class="ly"><p class="nm">합성인구 인프라</p>
+          <div class="m"><div class="big">100<span class="u">만 명</span></div><p>합성인구 DB</p></div>
+          <div class="m"><div class="big">13<span class="u">분</span></div><p>1,000명 응답 수집</p></div>
+          <div class="m"><div class="big">2<span class="u">편</span></div><p class="nw">국내 학술지 게재 · 국제 심사중</p></div>
+        </div>
+        <div class="ly l2"><p class="nm">자체 서비스</p>
+          <div class="m"><div class="big">2<span class="u">개</span></div><p>서비스 출시 · 운영</p></div>
+          <div class="m"><div class="big">약 150<span class="u">명</span></div><p>가입 회원 · 광고 없이</p></div>
+          <div class="m"><div class="big">연 2<span class="u">억 원대</span></div><p>운영대행 라이선스 계약 제안</p></div>
+        </div>
+        <div class="ly l3"><p class="nm">맞춤형 개발</p>
+          <div class="m"><div class="big">1<span class="u">건</span></div><p>계약 체결 · ClawClip</p></div>
+          <div class="m"><div class="big">3<span class="u">곳</span></div><p>협의 중</p></div>
+          <div class="m"><p class="ink2" style="font-size:19px;line-height:1.5;margin-top:6px">OverEdge 동료 창업자들의<br>합성인구 활용 요청에서 시작</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section></div>
+
+<!-- ======================= 04 실물 화면 ======================= -->
+<div class="cell"><section class="slide s-shots">
+  <div class="eyebrow">03 · 자체 서비스</div><div class="pg">06</div>
+  <h2 class="ttl">자체 서비스 · Million Answers와 Persona Roundtable</h2>
+  <div class="body" style="top:220px">
+    <div class="two">
+      <figure>
+        <div class="frame"><video class="vid" src="assets/v16-ma.webm" poster="assets/v16-ma-last.png" muted loop playsinline preload="metadata"></video><img class="still" src="assets/v16-ma-last.png" alt="Million Answers 결과 화면"></div>
+        <figcaption><b>Million Answers</b><span>million-answers.com</span></figcaption>
+        <p class="pts">조건 지정 → 응답 → 리포트 · 문항별·응답자별 · PDF·XLSX 내보내기</p>
+      </figure>
+      <figure>
+        <div class="frame"><video class="vid" src="assets/v16-pr.webm" poster="assets/v16-pr-last.png" muted loop playsinline preload="metadata"></video><img class="still" src="assets/v16-pr-last.png" alt="Persona Roundtable 좌담회 화면"></div>
+        <figcaption><b>Persona Roundtable</b><span>persona-roundtable.com</span></figcaption>
+        <p class="pts">사람 사회자의 질문 → 합성 참여자의 발언 · 속마음 · 입장 분기 집계</p>
+      </figure>
+    </div>
+  </div>
+</section></div>
+
+
+<!-- ======================= 07 Posting Simulator ======================= -->
+<div class="cell"><section class="slide s-ps">
+  <div class="eyebrow">03 · 자체 서비스</div><div class="pg">07</div>
+  <h2 class="ttl">자체 서비스 · Posting Simulator</h2>
+  <p class="lead">보도자료를 발표하기 전에, 수천 명의 인구그룹별 반응과 그 이유를 한 번에 본다</p>
+  <div class="body" style="top:258px">
+    <div class="two">
+      <div class="shots">
+        <img src="assets/ps-groups.png" alt="인구그룹별 선호도">
+        <img src="assets/ps-opinions.png" alt="개인별 의견">
+      </div>
+      <div class="side">
+        <div class="k1"><span class="lab">시연 사례</span><p class="t">학교복합시설 설계공모 발표</p><p class="v">신도시 공사의 보도자료 · 기관과 사례는 가상</p></div>
+        <div class="k1"><div class="big">6,000<span class="u">명</span></div><p class="v">전 표본 반응 점수를 <b>11초</b>에 동시 산정</p></div>
+        <div class="k1"><span class="lab">가장 크게 갈리는 지점</span><p class="t">가구 내 학령아동 유무</p><p class="v">소득·거주지보다 두 배 이상 강하게 작용</p></div>
+        <div class="k1"><span class="lab">의견 문장</span><p class="v">선택한 집단에만 LLM으로 생성 · 평균과 반대인 <b>소수 의견</b>까지 표시</p></div>
+        <div class="k1" style="border-bottom:none"><span class="chip br">시연 중</span><p class="v" style="margin-top:10px">경기도청 · 경기주택공사 · 디벨로퍼 후속 미팅</p></div>
+      </div>
+    </div>
+  </div>
+  <p class="foot">시안 화면 (2026-10-12) · 모든 수치와 문장은 AI 생성 시뮬레이션이며 실제 응답이 아님</p>
+</section></div>
+
+<!-- ======================= 07 ClawClip ======================= -->
+<div class="cell"><section class="slide s-claw">
+  <div class="eyebrow">03 · 맞춤형 개발</div><div class="pg">08</div>
+  <h2 class="ttl">맞춤형 개발 · ClawClip 가상 손님층</h2>
+  <p class="lead">소상공인 마케팅 서비스 안에서, 가게 주변 손님층이 홍보 시안에 어떻게 반응할지 점주가 먼저 본다</p>
+  <div class="body" style="top:262px">
+    <div class="who2"><b>OverEdge 동료 창업자의 요청</b><span>ClawClip은 다른 창업자의 서비스입니다. 합성인구를 쓰고 싶다는 요청을 받아 기능을 개발하고 있고, 같은 요청이 이어져 맞춤형 개발 사업으로 키우고 있습니다.</span></div>
+    <svg width="1620" height="600" viewBox="0 0 1620 620">
+      <defs><marker id="ac" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#33456B"/></marker></defs>
+      <text x="0" y="24" font-size="18" font-weight="600" fill="#8A8A82" letter-spacing="1">점주가 보는 흐름</text>
+      <g>
+        <rect x="0" y="44" width="360" height="190" fill="#FAF8F3" stroke="#CFC8BA"/>
+        <text x="22" y="84" font-size="18" font-weight="600" fill="#8A8A82">1 · 가게 정보</text>
+        <text x="22" y="124" font-size="25" font-weight="700" fill="#17181C">전국 점포 정보 사전 생성</text>
+        <text x="22" y="162" font-size="19" fill="#57544D">인허가·상가 공공데이터</text>
+        <text x="22" y="190" font-size="19" fill="#57544D">업종 · 위치 · 상권</text>
+
+        <rect x="420" y="44" width="360" height="190" fill="#FAF8F3" stroke="#CFC8BA"/>
+        <text x="442" y="84" font-size="18" font-weight="600" fill="#8A8A82">2 · 손님층 선택</text>
+        <text x="442" y="124" font-size="25" font-weight="700" fill="#17181C">손님 유형 복수 선택</text>
+        <text x="442" y="162" font-size="19" fill="#57544D">주변 거주민 · 직장인 · 학생</text>
+        <text x="442" y="190" font-size="19" fill="#57544D">시간대는 생활인구로 자동 구분</text>
+
+        <rect x="840" y="44" width="360" height="190" fill="#FAF8F3" stroke="#CFC8BA"/>
+        <text x="862" y="84" font-size="18" font-weight="600" fill="#8A8A82">3 · 지역 손님 패널</text>
+        <text x="862" y="124" font-size="25" font-weight="700" fill="#17181C">합성인구에서 추출</text>
+        <text x="862" y="162" font-size="19" fill="#57544D">populi-core API 호출</text>
+        <text x="862" y="190" font-size="19" fill="#57544D">거주지·연령·가구 조건</text>
+
+        <rect x="1260" y="44" width="360" height="190" fill="#FAF8F3" stroke="#CFC8BA"/>
+        <text x="1282" y="84" font-size="18" font-weight="600" fill="#8A8A82">4 · 시안 반응</text>
+        <text x="1282" y="124" font-size="25" font-weight="700" fill="#17181C">손님층별 반응 비율</text>
+        <text x="1282" y="162" font-size="19" fill="#57544D">점주 확인 단계에 표시</text>
+        <text x="1282" y="190" font-size="19" fill="#57544D">합성 댓글·속마음 함께 제공</text>
+      </g>
+      <g stroke="#33456B" stroke-width="2.5" marker-end="url(#ac)"><line x1="362" y1="139" x2="414" y2="139"/><line x1="782" y1="139" x2="834" y2="139"/><line x1="1202" y1="139" x2="1254" y2="139"/></g>
+
+      <text x="0" y="300" font-size="18" font-weight="600" fill="#8A8A82" letter-spacing="1">홍보 시안 반응 · 화면 구성 예시</text>
+      <rect x="0" y="318" width="760" height="270" fill="#FAF8F3" stroke="#CFC8BA"/>
+      <text x="24" y="358" font-size="21" font-weight="700" fill="#17181C">“이번 주 평일 점심 세트 20% 할인”</text>
+      <g font-size="19" fill="#57544D">
+        <text x="24" y="412">주변 직장인 30~40대</text><rect x="260" y="396" width="330" height="22" fill="#33456B"/><text x="604" y="413">긍정 비율</text>
+        <text x="24" y="462">주변 거주민 60대 이상</text><rect x="260" y="446" width="150" height="22" fill="#33456B" opacity=".55"/>
+        <text x="24" y="512">대학생</text><rect x="260" y="496" width="240" height="22" fill="#33456B" opacity=".75"/>
+      </g>
+      <text x="24" y="568" font-size="16" fill="#8A8A82">막대 길이는 예시 · 실제 화면은 ClawClip 서비스 안에서 제공</text>
+
+      <rect x="820" y="318" width="800" height="270" fill="none" stroke="#33456B" stroke-width="1.5" stroke-dasharray="7 6"/>
+      <text x="846" y="358" font-size="18" font-weight="600" fill="#33456B" letter-spacing="1">맞춤형 개발로 발전</text>
+      <g font-size="21" fill="#17181C">
+        <text x="846" y="408">· 계약 1건 체결 · 비슷한 요청 3곳과 협의 중</text>
+        <text x="846" y="452">· 같은 populi-core API로 여러 고객사에 공급</text>
+        <text x="846" y="496">· 실제 문의·예약 기록은 다시 학습 데이터로</text>
+      </g>
+      <text x="846" y="556" font-size="18" fill="#57544D">서울만이 아니라 전국 상권을 대상으로 설계</text>
+    </svg>
+  </div>
+</section></div>
+
+<!-- ======================= 09 검증과 반영 ======================= -->
+<div class="cell"><section class="slide s-pivot">
+  <div class="eyebrow">04 · 검증과 반영</div><div class="pg">09</div>
+  <h2 class="ttl">OverEdge 4개월의 실행과 반영</h2>
+  <p class="lead">7~8월에 두 서비스를 만들고, 9~10월에는 멘토링과 고객 미팅에서 받은 질문을 제품과 사업 방향에 반영</p>
+  <div class="body" style="top:268px">
+    <svg width="1620" height="400" viewBox="0 0 1620 400">
+      <rect x="20" y="150" width="400" height="60" fill="#E4E8F0"/>
+      <text x="30" y="246" font-size="16" font-weight="600" fill="#33456B" letter-spacing="1">개발 · 출시</text>
+      <rect x="430" y="150" width="1170" height="60" fill="#F0ECE3"/>
+      <text x="440" y="246" font-size="16" font-weight="600" fill="#8A8A82" letter-spacing="1">검증 · 반영</text>
+      <line x1="20" y1="180" x2="1600" y2="180" stroke="#CFC8BA" stroke-width="2"/>
+      <g font-size="18" fill="#8A8A82" font-weight="600">
+        <text x="40" y="130">07월</text><text x="240" y="130">07~08월</text><text x="440" y="130">09.07</text><text x="640" y="130">09월</text>
+        <text x="840" y="130">10.01</text><text x="1040" y="130">10.07</text><text x="1240" y="130">10월</text><text x="1440" y="130">10.20</text>
+      </g>
+      <g>
+        <circle cx="50" cy="180" r="9" fill="#F4F2EC" stroke="#33456B" stroke-width="3"/>
+        <circle cx="250" cy="180" r="11" fill="#33456B"/>
+        <circle cx="450" cy="180" r="9" fill="#F4F2EC" stroke="#33456B" stroke-width="3"/>
+        <circle cx="650" cy="180" r="9" fill="#F4F2EC" stroke="#33456B" stroke-width="3"/>
+        <circle cx="850" cy="180" r="11" fill="#33456B"/>
+        <circle cx="1050" cy="180" r="9" fill="#F4F2EC" stroke="#33456B" stroke-width="3"/>
+        <circle cx="1250" cy="180" r="9" fill="#F4F2EC" stroke="#33456B" stroke-width="3"/>
+        <circle cx="1450" cy="180" r="11" fill="#33456B"/>
+      </g>
+      <g font-size="22" font-weight="700" fill="#17181C">
+        <text x="40" y="290">OverEdge 시작</text><text x="240" y="290">두 서비스 출시</text><text x="440" y="290">1차 IR</text><text x="640" y="290">오픈 서비스</text>
+        <text x="840" y="290">멘토링 1회차</text><text x="1040" y="290">AI 서포터즈</text><text x="1240" y="290">고객 미팅</text><text x="1440" y="290">멘토링 2회차</text>
+      </g>
+      <g font-size="17" fill="#57544D">
+        <text x="40" y="322">서비스 · 회원 · 계약 0</text>
+        <text x="240" y="322">Million Answers</text><text x="240" y="346">Persona Roundtable</text>
+        <text x="440" y="322">설문 서비스 중심</text><text x="440" y="346">기술·연구 서사</text>
+        <text x="640" y="322">회원 약 150명</text><text x="640" y="346">평가 논문 투고</text>
+        <text x="840" y="322">“결과를 믿어도</text><text x="840" y="346">되는가” · 리텐션</text>
+        <text x="1040" y="322">공공·정책 도메인</text><text x="1040" y="346">다섯 후보 검토</text>
+        <text x="1240" y="322">공공·부동산 · 컨설팅</text><text x="1240" y="346">창업자 · 국회</text>
+        <text x="1440" y="322">연구 중심 · 공공 시장</text><text x="1440" y="346">구조에 긍정 평가</text>
+      </g>
+      <g font-size="16" fill="#33456B" font-weight="600">
+        <text x="840" y="70">김기준 대표 · Kakao Ventures</text>
+        <text x="1440" y="70">김기준 대표</text><text x="1440" y="92">Kakao Ventures</text>
+      </g>
+    </svg>
+    <div class="row3">
+      <div class="chg"><span class="lab">제품</span><p class="b">순서대로 묻는 설문</p><p class="a">한 번에 재는 반응 스코어링</p></div>
+      <div class="chg"><span class="lab">고객</span><p class="b">일반 사용자 구독</p><p class="a">공공·기업 B2B와 파트너</p></div>
+      <div class="chg"><span class="lab">운영</span><p class="b">창업자가 직접 홍보</p><p class="a">국내 운영대행 파트너</p></div>
+    </div>
+  </div>
+</section></div>
+
+<!-- ======================= 06 한계와 조건 ======================= -->
+<div class="cell"><section class="slide s-limit">
+  <div class="eyebrow">04 · 검증과 반영</div><div class="pg">10</div>
+  <h2 class="ttl">전체는 맞고, 개인은 틀린다</h2>
+  <p class="lead">합성 응답의 한계를 직접 재고, 그 한계 안에서 쓰는 조건을 정했다</p>
+  <div class="body" style="top:268px">
+    <div class="two">
+      <div>
+        <figure class="paperfig">
+          <img src="assets/fig-stance-axis.png" alt="한 주제에서 실제 참가자와 각 조건의 의견 좌표">
+        </figure>
+        <div class="figkey">
+          <p><b>읽는 법</b> 한 주제에 대한 의견을 찬반 축 위의 좌표로 바꾼 결과 · 회색 띠는 실제 참가자의 평균 ±1&nbsp;SD</p>
+          <p><b>결과</b> 모든 합성 조건의 평균이 사람의 범위 안에 든다. 그러나 같은 사람끼리 비교하면 크게 어긋나고, 가치관·생애사를 더해도(D+V+B) 개인은 나아지지 않는다</p>
+        </div>
+        <p class="cite"><i>Matching the Population Is Not Matching the Person: A Protocol for Evaluating LLM-Simulated Responses</i> · International Journal of Public Opinion Research 심사중 · DEBATE 867명 · Figure 2</p>
+      </div>
+      <div>
+        <span class="lab">그래서 정한 사용 조건</span>
+        <div class="cond" style="margin-top:14px">
+          <div><span class="n">1</span><span class="k">집단의 반응 분포</span><span class="v">한 사람의 정답이 아니라 지역·연령·소득 집단의 반응</span></div>
+          <div><span class="n">2</span><span class="k">실제로 묻기 어려운 상황</span><span class="v">발표 전 보안, 아직 없는 정책, 조사에 응하지 않는 집단</span></div>
+          <div><span class="n">3</span><span class="k">실제 반응이 돌아오는 곳</span><span class="v">투표·신청률·문의 기록으로 결과를 다시 재고 학습</span></div>
+        </div>
+        <p class="plus">정확한 예측보다 다양한 가상 사람이 필요한 <b>훈련·테스트</b> 용도도 같은 조건을 충족</p>
+      </div>
+    </div>
+  </div>
+</section></div>
+
+
+<!-- ======================= 11 합성인구 인프라 휠 ======================= -->
+<div class="cell"><section class="slide s-loop">
+  <div class="eyebrow">04 · 합성인구 인프라</div><div class="pg">11</div>
+  <h2 class="ttl">합성인구가 스스로 나아지는 휠</h2>
+  <p class="lead">실제 반응으로 평가하고, 가볍게 학습해 다시 서비스에 쓴다. 이 휠이 사업의 핵심이다</p>
+  <div class="body" style="top:268px">
+    <div class="two">
+      <svg width="900" height="650" viewBox="0 0 900 650">
+        <defs><marker id="ar2" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#33456B"/></marker></defs>
+        <circle cx="450" cy="320" r="235" fill="none" stroke="#CFC8BA" stroke-width="2"/>
+        <circle cx="450" cy="320" r="112" fill="#33456B"/>
+        <text x="450" y="312" font-size="28" font-weight="700" fill="#fff" text-anchor="middle">populi-core</text>
+        <text x="450" y="348" font-size="19" fill="#fff" opacity=".8" text-anchor="middle">합성인구 DB</text>
+        <g stroke="#33456B" stroke-width="2.5" fill="none" marker-end="url(#ar2)">
+          <path d="M 560 115 A 235 235 0 0 1 680 250"/>
+          <path d="M 680 400 A 235 235 0 0 1 560 525"/>
+          <path d="M 340 525 A 235 235 0 0 1 220 400"/>
+          <path d="M 220 250 A 235 235 0 0 1 340 115"/>
+        </g>
+        <g>
+          <rect x="320" y="36" width="260" height="104" fill="#FAF8F3" stroke="#CFC8BA"/>
+          <text x="450" y="76" font-size="24" font-weight="700" fill="#17181C" text-anchor="middle">사용자 · 실사용</text>
+          <text x="450" y="110" font-size="17" fill="#57544D" text-anchor="middle">자체 서비스 · 맞춤형 개발</text>
+
+          <rect x="630" y="268" width="260" height="104" fill="#FAF8F3" stroke="#CFC8BA"/>
+          <text x="760" y="308" font-size="24" font-weight="700" fill="#17181C" text-anchor="middle">실제 반응 회수</text>
+          <text x="760" y="342" font-size="17" fill="#57544D" text-anchor="middle">실응답 · 투표 · 문의 · 예약</text>
+
+          <rect x="310" y="504" width="280" height="104" fill="#FAF8F3" stroke="#33456B" stroke-width="2"/>
+          <text x="450" y="544" font-size="24" font-weight="700" fill="#33456B" text-anchor="middle">반응 스코어링 평가</text>
+          <text x="450" y="578" font-size="17" fill="#57544D" text-anchor="middle">합성 vs 실제 · 좌표 거리</text>
+
+          <rect x="10" y="268" width="260" height="104" fill="#FAF8F3" stroke="#33456B" stroke-width="2"/>
+          <text x="140" y="308" font-size="24" font-weight="700" fill="#33456B" text-anchor="middle">임베딩 경량 학습</text>
+          <text x="140" y="342" font-size="17" fill="#57544D" text-anchor="middle">문장 생성 없이 벡터로</text>
+        </g>
+      </svg>
+      <div class="side">
+        <span class="lab">휠을 돌리는 두 조건</span>
+        <div class="blk" style="margin-top:12px"><p class="k">1 · 학습 파이프라인</p><p class="v">반응을 찬반 축 위의 좌표로 바꿔 실제와의 거리로 평가하고(국제 학술지 심사중), 그 값을 임베딩 단계에서 가볍게 학습하는 구조를 설계했다</p></div>
+        <div class="blk"><p class="k">2 · 많은 사용자</p><p class="v">자체 서비스, 운영대행 파트너, 맞춤형 개발이 실제 반응을 모은다</p></div>
+        <div class="ask"><b>그래서 연구 투자가 필요하다</b><span>설계한 파이프라인을 실제로 돌릴 연구 인력과 인프라</span></div>
+        <p class="cite2">semantic projection · Grand et al., <i>Nature Human Behaviour</i> (2022)</p>
+      </div>
+    </div>
+  </div>
+</section></div>
+
+<!-- ======================= 12 수요 검증 ======================= -->
+<div class="cell"><section class="slide s-dem3">
+  <div class="eyebrow">05 · 시장</div><div class="pg">12</div>
+  <h2 class="ttl">수요와 지불 의사의 검증</h2>
+  <p class="lead">확정에 가까운 라이선스 매출 위에, 고객 수와 프로젝트 수에 비례하는 두 매출원</p>
+  <div class="body" style="top:268px">
+    <div class="two">
+      <div class="lic">
+        <span class="lab">① 운영대행 라이선스 · 연간 고정</span>
+        <svg width="560" height="420" viewBox="0 0 560 420" style="display:block;margin-top:14px">
+          <line x1="40" y1="360" x2="540" y2="360" stroke="#CFC8BA" stroke-width="2"/>
+          <rect x="90" y="160" width="150" height="200" fill="#33456B"/>
+          <text x="165" y="140" font-size="44" font-weight="700" fill="#33456B" text-anchor="middle">2억</text>
+          <rect x="330" y="60" width="150" height="300" fill="#E4E8F0" stroke="#33456B" stroke-width="2.5" stroke-dasharray="8 6"/>
+          <text x="405" y="40" font-size="44" font-weight="700" fill="#33456B" text-anchor="middle">3억+</text>
+          <g font-size="21" font-weight="600" fill="#17181C" text-anchor="middle"><text x="165" y="392">1년차</text><text x="405" y="392">2년차~</text></g>
+          <g font-size="17" fill="#57544D" text-anchor="middle"><text x="165" y="416">계약 제안 · 연 2억 원대</text><text x="405" y="416">갱신 협의 · 최소 3억 원</text></g>
+        </svg>
+        <p class="v">컨설팅·마케팅 회사가 Million Answers · Persona Roundtable의 국내 홍보·운영을 맡고 라이선스비를 지급</p>
+      </div>
+      <div class="rows">
+        <div class="rv">
+          <span class="lab">② 자체 서비스 이용료</span>
+          <p class="f">유료 고객 수 <i>×</i> 이용료</p>
+          <div class="facts">
+            <div><b>약 150명</b><span>가입 회원 · 광고 없이</span></div>
+            <div><b>월 ₩9,900~119,000</b><span>공개 가격표 · 실응답 보정은 1인당 과금</span></div>
+            <div><b>100건 · 3곳</b><span>파트너 1년 목표 · 유료 이용 · Enterprise</span></div>
+          </div>
+          <p class="n">Posting Simulator도 같은 이용료 모델로 합류</p>
+        </div>
+        <div class="rv">
+          <span class="lab">③ 맞춤형 개발</span>
+          <p class="f">프로젝트 수 <i>×</i> 프로젝트 단가</p>
+          <div class="facts">
+            <div><b>1건</b><span>계약 체결 · ClawClip</span></div>
+            <div><b>3곳</b><span>협의 중</span></div>
+            <div><b>개발비 + 이용료</b><span>개발 후 이용량에 따라 지속 과금</span></div>
+          </div>
+          <p class="n">공공기관 사전 검토 프로젝트도 같은 구조</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section></div>
+
+<!-- ======================= 12 파트너 계획 ======================= -->
+<div class="cell"><section class="slide s-ptnr">
+  <div class="eyebrow">05 · 시장</div><div class="pg">13</div>
+  <h2 class="ttl">운영대행 파트너의 고객 확보 계획</h2>
+  <p class="lead">Million Answers 국내 확장안 · 파트너가 직접 제안한 로드맵</p>
+  <div class="body" style="top:268px">
+    <div class="msg"><b>ASK BEFORE YOU ACT</b><span>실행하기 전에, 100만 명에게 먼저 물어보세요</span></div>
+    <div class="tracks">
+      <div class="tr"><p class="ph">TRACK 0 · 자사 적용</p><h3>파트너의 제안서와 용역 보고서</h3><p>파트너가 수행하는 홍보·컨설팅 과업에 먼저 적용해 첫 레퍼런스를 만든다</p><p class="st">제안서 적용<i>→</i>첫 레퍼런스</p></div>
+      <div class="tr"><p class="ph">TRACK A · 예비창업자</p><h3>「모두의 창업」 참여자</h3><p>사업계획서의 가장 약한 부분인 수요 검증을 무료 체험으로 채우고, 실응답 보정 상품으로 전환</p><p class="st">무료 체험<i>→</i>유료 전환<i>→</i>사례 공유</p></div>
+      <div class="tr"><p class="ph">TRACK B · 에이전시·기업</p><h3>유료 PoC 10개사</h3><p>고객 자신의 카피·시안으로 10분 안에 결과를 보여주고, 사례를 쌓아 같은 업종으로 확산</p><p class="st">유료 PoC<i>→</i>사례<i>→</i>Enterprise</p></div>
+    </div>
+    <div class="row2">
+      <div class="b"><b>신뢰를 만드는 콘텐츠</b><span>주간 실험 콘텐츠 「MILLION LAB」 · 반기 「사람 vs AI 정확도 리포트」 공개</span></div>
+      <div class="b"><b>실제 응답은 패널사와 협업</b><span>실응답은 패널 전문기업과 비독점 협업 · 합성인구 DB와 보정 로직은 ILP가 보유</span></div>
+    </div>
+    <div class="phases">
+      <div><p class="t">PHASE 1 · 0~3개월</p><p class="h">검증</p><p class="d">타깃·가격 검증 · 사람 vs AI 비교실험 · 자사 제안서 적용</p><p class="g">다음 단계 기준: 비교실험 오차 데이터</p></div>
+      <div><p class="t">PHASE 2 · 4~6개월</p><p class="h">시장 진입</p><p class="d">정식 런칭 · 성공 사례 확보 · 검증 보고서 발표</p><p class="g">다음 단계 기준: 사례 확보 · 재구매</p></div>
+      <div><p class="t">PHASE 3 · 7~12개월</p><p class="h">확장</p><p class="d">Enterprise 영업 · 에이전시 파트너십 · 산업별 패키지</p><p class="g">다음 단계 기준: Enterprise 계약 · 월 반복 매출</p></div>
+      <div><p class="t">PHASE 4 · 2년차~</p><p class="h">확대</p><p class="d">산업별 특화 · 공공 본격 진입 · 해외 · API·데이터 사업</p><p class="g">장기 방향: 의사결정 시뮬레이션</p></div>
+    </div>
+  </div>
+  <p class="foot">Persona Roundtable · Posting Simulator의 운영 범위는 별도 협의 예정 · 파트너 회사명은 계약 전 비공개</p>
+</section></div>
+
+<!-- ======================= 14 AI 에이전트 ======================= -->
+<div class="cell"><section class="slide s-agent">
+  <div class="eyebrow">06 · 실행</div><div class="pg">14</div>
+  <h2 class="ttl">AI 에이전트로 운영하는 1인 연구소</h2>
+  <p class="lead">창업자는 결정하고 검토한다. 기획·연구·대외 활동·개발은 역할별 에이전트가 맡는다</p>
+  <div class="body" style="top:262px">
+    <svg width="1620" height="720" viewBox="0 0 1620 720">
+      <defs><marker id="ar3" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#33456B"/></marker></defs>
+      <rect x="610" y="0" width="400" height="116" fill="#33456B"/>
+      <text x="810" y="52" font-size="36" font-weight="700" fill="#fff" text-anchor="middle">창업자</text>
+      <text x="810" y="90" font-size="21" fill="#fff" opacity=".8" text-anchor="middle">결정 · 검토 · 배포 승인</text>
+      <g stroke="#33456B" stroke-width="2.5" fill="none" marker-end="url(#ar3)">
+        <path d="M 810 118 L 810 160 L 260 160 L 260 206"/><path d="M 810 160 L 810 206"/><path d="M 810 160 L 1360 160 L 1360 206"/>
+      </g>
+      <g>
+        <rect x="20" y="210" width="480" height="170" fill="#FAF8F3" stroke="#CFC8BA" stroke-width="1.5"/>
+        <text x="48" y="256" font-size="20" font-weight="600" fill="#8A8A82" letter-spacing="1">제품개발 오케스트레이터</text>
+        <text x="48" y="306" font-size="32" font-weight="700" fill="#17181C">기획 · 전략 · 작업 지시서</text>
+        <text x="48" y="348" font-size="21" fill="#57544D">서비스별 개발 이슈 작성 · 진행 관리</text>
+        <rect x="570" y="210" width="480" height="170" fill="#FAF8F3" stroke="#CFC8BA" stroke-width="1.5"/>
+        <text x="598" y="256" font-size="20" font-weight="600" fill="#8A8A82" letter-spacing="1">연구 에이전트</text>
+        <text x="598" y="306" font-size="32" font-weight="700" fill="#17181C">문헌 · 실험 설계 · 논문</text>
+        <text x="598" y="348" font-size="21" fill="#57544D">벤치마크 · 평가 지표</text>
+        <rect x="1120" y="210" width="480" height="170" fill="#FAF8F3" stroke="#CFC8BA" stroke-width="1.5"/>
+        <text x="1148" y="256" font-size="20" font-weight="600" fill="#8A8A82" letter-spacing="1">PR 에이전트</text>
+        <text x="1148" y="306" font-size="32" font-weight="700" fill="#17181C">발표 · 인터뷰 · IR</text>
+        <text x="1148" y="348" font-size="21" fill="#57544D">대외 자료와 메시지 준비</text>
+      </g>
+      <g stroke="#33456B" stroke-width="2.5" fill="none" marker-end="url(#ar3)"><path d="M 260 382 L 260 460"/></g>
+      <text x="282" y="428" font-size="20" fill="#57544D">GitHub 이슈로 지시</text>
+      <rect x="20" y="466" width="1580" height="230" fill="none" stroke="#33456B" stroke-width="2" stroke-dasharray="9 7"/>
+      <text x="48" y="512" font-size="21" font-weight="600" fill="#33456B" letter-spacing="1">저장소별 코딩 에이전트 · 이슈 → 구현 → PR → 창업자 검토</text>
+      <g font-size="26" font-weight="700" fill="#17181C" text-anchor="middle">
+        <rect x="48" y="546" width="290" height="110" fill="#FAF8F3" stroke="#CFC8BA"/><text x="193" y="611">Million Answers</text>
+        <rect x="358" y="546" width="290" height="110" fill="#FAF8F3" stroke="#CFC8BA"/><text x="503" y="611">Persona Roundtable</text>
+        <rect x="668" y="546" width="290" height="110" fill="#FAF8F3" stroke="#CFC8BA"/><text x="813" y="611">populi-core</text>
+        <rect x="978" y="546" width="290" height="110" fill="#FAF8F3" stroke="#CFC8BA"/><text x="1123" y="611">Posting Simulator</text>
+        <rect x="1288" y="546" width="284" height="110" fill="#FAF8F3" stroke="#CFC8BA"/><text x="1430" y="611">고객사 모듈</text>
+      </g>
+    </svg>
+  </div>
+</section></div>
+
+<!-- ======================= 12 글로벌 ======================= -->
+<div class="cell"><section class="slide s-global">
+  <div class="eyebrow">07 · 확장</div><div class="pg">15</div>
+  <h2 class="ttl">단계별 글로벌 진출</h2>
+  <p class="lead">학계·공공 네트워크로 먼저 탐색하고, 국가별 합성인구 위에 세 서비스를 올린다</p>
+  <div class="body" style="top:268px">
+    <div class="stages">
+      <div class="st now">
+        <p class="ph">1단계 · 국내 + 미국 탐색</p>
+        <h3>국내 사업과 미국 시장 탐색</h3>
+        <ul>
+          <li><b>운영대행 파트너</b>로 국내 서비스 확산</li>
+          <li>지자체·공기업 <b>발표 전 반응 검토</b></li>
+          <li><b>학계·공공 네트워크</b>로 미국 시장 탐색</li>
+        </ul>
+      </div>
+      <div class="st nx">
+        <p class="ph">2단계 · 미국</p>
+        <h3>미국 공공부문 진입</h3>
+        <ul>
+          <li>CHNA · 비영리병원 <b>2,272곳</b> · <b>3년 주기</b> 법정 조사</li>
+          <li>도시계획 <b>주민 의견수렴</b> 사전 설계</li>
+          <li>미국 대학·기관과 파일럿 · <b>영문 서비스</b></li>
+        </ul>
+      </div>
+      <div class="st far">
+        <p class="ph">3단계 · 12개국</p>
+        <h3>국가별 합성인구</h3>
+        <ul>
+          <li>NVIDIA Nemotron-Personas <b>12개국</b> 공개 데이터</li>
+          <li>populi 파이프라인으로 <b>가치관·생애사·지역</b> 부여</li>
+          <li>MA · PR · Posting Simulator <b>다국어 서비스</b></li>
+        </ul>
+      </div>
+    </div>
+    <svg width="1620" height="180" viewBox="0 0 1620 190" style="margin-top:20px;display:block">
+      <defs><marker id="ar4" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,0 L12,6 L0,12 z" fill="#33456B"/></marker></defs>
+      <rect x="0" y="20" width="380" height="150" fill="#FAF8F3" stroke="#CFC8BA"/>
+      <text x="22" y="56" font-size="18" font-weight="600" fill="#8A8A82" letter-spacing="1">공개 인구 데이터</text>
+      <text x="22" y="92" font-size="24" font-weight="700" fill="#17181C">국가별 Nemotron-Personas</text>
+      <g fill="#33456B">
+        <circle cx="34" cy="130" r="9"/><circle cx="60" cy="130" r="9"/><circle cx="86" cy="130" r="9"/><circle cx="112" cy="130" r="9"/><circle cx="138" cy="130" r="9"/><circle cx="164" cy="130" r="9"/>
+        <circle cx="190" cy="130" r="9"/><circle cx="216" cy="130" r="9"/><circle cx="242" cy="130" r="9"/><circle cx="268" cy="130" r="9"/><circle cx="294" cy="130" r="9"/><circle cx="320" cy="130" r="9"/>
+      </g>
+      <text x="340" y="137" font-size="18" fill="#57544D">12</text>
+      <rect x="450" y="20" width="620" height="150" fill="#FAF8F3" stroke="#CFC8BA"/>
+      <text x="472" y="56" font-size="18" font-weight="600" fill="#8A8A82" letter-spacing="1">populi 파이프라인 · 한국에서 검증</text>
+      <g font-size="21" font-weight="600" fill="#17181C">
+        <rect x="472" y="80" width="130" height="64" fill="none" stroke="#CFC8BA"/><text x="537" y="119" text-anchor="middle">통계 보정</text>
+        <rect x="616" y="80" width="140" height="64" fill="none" stroke="#CFC8BA"/><text x="686" y="119" text-anchor="middle">가치관 10차원</text>
+        <rect x="770" y="80" width="130" height="64" fill="none" stroke="#CFC8BA"/><text x="835" y="119" text-anchor="middle">생애사</text>
+        <rect x="914" y="80" width="134" height="64" fill="none" stroke="#CFC8BA"/><text x="981" y="119" text-anchor="middle">지역 배치</text>
+      </g>
+      <rect x="1140" y="20" width="480" height="150" fill="#FAF8F3" stroke="#CFC8BA"/>
+      <text x="1162" y="56" font-size="18" font-weight="600" fill="#8A8A82" letter-spacing="1">같은 서비스, 다른 나라</text>
+      <text x="1162" y="98" font-size="24" font-weight="700" fill="#17181C">MA · PR · Posting Simulator</text>
+      <text x="1162" y="136" font-size="19" fill="#57544D">국가별 합성인구 위에서 다국어로 제공</text>
+      <g stroke="#33456B" stroke-width="2.5" marker-end="url(#ar4)"><line x1="384" y1="95" x2="444" y2="95"/><line x1="1074" y1="95" x2="1134" y2="95"/></g>
+    </svg>
+    <div class="who"><b>창업자 · 도시계획 연구자</b><span>한국 공공부문과 미국 도시계획·공공부문의 학계 네트워크를 통해 현지 사업성 검토를 계속 진행</span></div>
+    <div class="use" style="margin-top:22px">
+      <p class="h">투자금 사용처</p>
+      <div class="c"><b>연구 인력</b><span>학습 파이프라인 가동</span></div>
+      <div class="c"><b>해외 합성인구</b><span>미국·12개국 데이터 구축</span></div>
+      <div class="c"><b>시뮬레이션 인프라</b><span>대규모 반복 실행</span></div>
+      <div class="c"><b>해외 파일럿</b><span>CHNA 레퍼런스 확보</span></div>
+    </div>
+  </div>
+  <p class="foot">CHNA: Community Health Needs Assessment · IRS §501(r)(3) · Schedule H 제출 조직 2,272 (IRS CY2016)</p>
+</section></div>
+
+
+<!-- ======================= 13 클로징 ======================= -->
+<div class="cell"><section class="slide s-close">
+  <div class="eyebrow">INSTITUTE FOR LATENT PUBLICS</div>
+  <h2>가상의 사람들에게,<br>먼저 물어보세요</h2>
+  <p class="sub">ASK BEFORE YOU ACT · 말하지 않는 다수의 반응을 재고, 그 정확도를 계속 높이는 연구소</p>
+  <p class="addr"><b>latentpublics.com</b><br>million-answers.com · persona-roundtable.com<br>박영준 · contact@latentpublics.com</p>
+  <p class="meta">KAIST OVEREDGE<br>FINAL AUDITION · 2026 · 10</p>
+</section></div>
+      </div>
+    </div>
+    <button class="nav prev" id="prev" type="button" aria-label="이전 슬라이드">‹</button>
+    <button class="nav next" id="next" type="button" aria-label="다음 슬라이드">›</button>
+    <button class="fs" id="fs" type="button" aria-label="전체화면">전체화면</button>
+  </div>
+
+  <div class="bar">
+    <div class="ticks" id="ticks" role="tablist" aria-label="슬라이드 이동"></div>
+    <p class="count"><b id="cur">1</b> / <span id="total">16</span></p>
+  </div>
+  <p class="hint">← → 방향키 · 스와이프 · 눈금 클릭으로 이동</p>
+
+  <noscript>
+    <p>슬라이드 넘김에는 자바스크립트가 필요합니다. <a href="ILP-IR-Deck-2026-10.pdf">PDF 원본을 내려받아</a> 보실 수 있습니다.</p>
+  </noscript>
+
+  <footer>
+    <div><span class="lab2">SERVICES</span><span class="val">Million Answers (<a href="https://million-answers.com">million-answers.com</a>)<br>Persona Roundtable (<a href="https://persona-roundtable.com">persona-roundtable.com</a>)</span></div>
+    <div><span class="lab2">CONTACT</span><span class="val">박영준 박사 · Institute for Latent Publics<br>youngjourpark@gmail.com / contact@latentpublics.com</span></div>
+  </footer>
+</div>
+
+<script src="viewer.js"></script>
+</body>
+</html>
